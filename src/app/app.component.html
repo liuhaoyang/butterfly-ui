@@ -1,20 +1,48 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<nz-layout class="layout">
+        <nz-header>
+          <div class="logo">
+              <h1>Butterfly APM</h1> 
+          </div>
+          <ul nz-menu [nzTheme]="'dark'" [nzMode]="'horizontal'" style="line-height: 64px;">
+            <li nz-menu-item routerLink="/index">Home</li>
+            <li nz-menu-item routerLink="/trace">Trace</li>
+            <li nz-menu-item>nav 3</li>
+          </ul>
+        </nz-header>
+        <nz-layout>
+          <nz-sider [nzWidth]="200" style="background:#fff">
+            <ul nz-menu [nzMode]="'inline'" style="height:100%">
+              <li nz-submenu>
+                <span title><i class="anticon anticon-user"></i>subnav 1</span>
+                <ul>
+                  <li nz-menu-item>option1</li>
+                  <li nz-menu-item>option2</li>
+                  <li nz-menu-item>option3</li>
+                  <li nz-menu-item>option4</li>
+                </ul>
+              </li>
+              <li nz-submenu>
+                <span title><i class="anticon anticon-laptop"></i>subnav 2</span>
+                <ul>
+                  <li nz-menu-item>option5</li>
+                  <li nz-menu-item>option6</li>
+                  <li nz-menu-item>option7</li>
+                  <li nz-menu-item>option8</li>
+                </ul>
+              </li>
+              <li nz-submenu>
+                <span title><i class="anticon anticon-notification"></i>subnav 3</span>
+                <ul>
+                  <li nz-menu-item>option9</li>
+                  <li nz-menu-item>option10</li>
+                  <li nz-menu-item>option11</li>
+                  <li nz-menu-item>option12</li>
+                </ul>
+              </li>
+            </ul>
+          </nz-sider>
+          <nz-layout style="padding:0 24px 24px">
+            <router-outlet></router-outlet>
+          </nz-layout>
+        </nz-layout>
+      </nz-layout>

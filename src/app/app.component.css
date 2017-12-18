@@ -1,0 +1,23 @@
+:host ::ng-deep .logo {
+    width: 120px;
+    height: 31px;
+    border-radius: 6px;
+    margin: 16px 28px 16px 0;
+    float: left;
+  }
+
+nz-layout {
+    height: 100%;
+}
+
+.logo h1 {
+    font-size: 18px;
+    color: #fff;
+    opacity: 0.8;
+    line-height: 31px;
+    margin-left: -26px;
+}
+
+li {
+    outline: none;
+}
