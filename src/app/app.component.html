@@ -1,48 +1,55 @@
-<nz-layout class="layout">
-        <nz-header>
-          <div class="logo">
-            <a><h1>Butterfly APM</h1></a> 
-          </div>
-          <ul nz-menu [nzTheme]="'dark'" [nzMode]="'horizontal'" class="menu">
-            <li nz-menu-item routerLink="/index">Home</li>
-            <li nz-menu-item routerLink="/trace">Trace</li>
-            <li nz-menu-item>nav 3</li>
-          </ul>
-        </nz-header>
-        <nz-layout>
-          <nz-sider [nzWidth]="200" style="background:#fff">
-            <ul nz-menu [nzMode]="'inline'" style="height:100%">
-              <li nz-submenu>
-                <span title><i class="anticon anticon-user"></i>subnav 1</span>
-                <ul>
-                  <li nz-menu-item>option1</li>
-                  <li nz-menu-item>option2</li>
-                  <li nz-menu-item>option3</li>
-                  <li nz-menu-item>option4</li>
-                </ul>
-              </li>
-              <li nz-submenu>
-                <span title><i class="anticon anticon-laptop"></i>subnav 2</span>
-                <ul>
-                  <li nz-menu-item>option5</li>
-                  <li nz-menu-item>option6</li>
-                  <li nz-menu-item>option7</li>
-                  <li nz-menu-item>option8</li>
-                </ul>
-              </li>
-              <li nz-submenu>
-                <span title><i class="anticon anticon-notification"></i>subnav 3</span>
-                <ul>
-                  <li nz-menu-item>option9</li>
-                  <li nz-menu-item>option10</li>
-                  <li nz-menu-item>option11</li>
-                  <li nz-menu-item>option12</li>
-                </ul>
-              </li>
-            </ul>
-          </nz-sider>
-          <nz-layout style="padding:0 24px 24px">
-            <router-outlet></router-outlet>
-          </nz-layout>
-        </nz-layout>
-      </nz-layout>
+<nz-layout>
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" [nzCollapsedWidth]="0" [nzBreakpoint]="'lg'">
+    <div class="logo">
+      <h1><a routerLink="/">Butterfly APM</a></h1>
+    </div>
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="isCollapsed?'vertical':'inline'">
+      <li nz-submenu>
+        <span title><i class="anticon anticon-bars"></i><span class="nav-text">Dashboard</span></span>
+        <ul>
+          <li nz-menu-item>Overview</li>
+          <li nz-menu-item>Application</li>
+        </ul>
+      </li>
+      <li nz-submenu>
+          <span title><i class="anticon anticon-bars"></i><span class="nav-text">Tracing</span></span>
+        <ul>
+          <li nz-menu-item>Tracing Tree</li>
+          <li nz-menu-item>Dependencies</li>
+        </ul>
+      </li>
+      <li nz-submenu>
+          <span title><i class="anticon anticon-bars"></i><span class="nav-text">Monitor</span></span>
+        <ul>
+          <li nz-menu-item>Transaction</li>
+          <li nz-menu-item>Database</li>
+          <li nz-menu-item>NoSQL</li>
+          <li nz-menu-item>Threading</li>
+          <li nz-menu-item>Garbage Collection</li>
+        </ul>
+      </li>
+      <li nz-submenu>
+          <span title><i class="anticon anticon-bars"></i><span class="nav-text">Alerting</span></span>
+        <ul>
+          <li nz-menu-item>Alert List</li>
+          <li nz-menu-item>History</li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header style="background: #fff; padding:0;">
+      <i class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed" (click)="isCollapsed=!isCollapsed"></i>
+    </nz-header>
+    <nz-content style="margin:0 16px;">
+      <nz-breadcrumb style="margin:12px 0;">
+        <nz-breadcrumb-item>User</nz-breadcrumb-item>
+        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <div style="padding:24px; background: #fff; min-height: 360px;">
+        Bill is a cat.
+      </div>
+    </nz-content>
+    <nz-footer style="text-align: center;">Ant Design ©2017 Implement By Angular</nz-footer>
+  </nz-layout>
+</nz-layout>
