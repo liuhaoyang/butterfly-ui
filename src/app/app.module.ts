@@ -7,13 +7,11 @@ import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {AppComponent} from './app.component';
 import { RouterModule }   from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
-import { TraceComponent } from './trace/trace.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        TraceComponent,
         DashboardComponent
     ],
     imports: [
