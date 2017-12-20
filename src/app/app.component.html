@@ -1,0 +1,56 @@
+<nz-layout>
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" [nzCollapsedWidth]="0" [nzBreakpoint]="'lg'">
+    <div class="logo">
+      <h1><a routerLink="/">Butterfly APM</a></h1>
+    </div>
+    <ul nz-menu [nzTheme]="'dark'" [nzMode]="isCollapsed?'vertical':'inline'">
+      <li nz-submenu>
+        <span title><i class="anticon anticon-bars"></i><span class="nav-text">Dashboard</span></span>
+        <ul>
+          <li nz-menu-item>Overview</li>
+          <li nz-menu-item>Application</li>
+        </ul>
+      </li>
+      <li nz-submenu>
+          <span title><i class="anticon anticon-bars"></i><span class="nav-text">Tracing</span></span>
+        <ul>
+          <li nz-menu-item>Tracing Tree</li>
+          <li nz-menu-item>Dependencies</li>
+        </ul>
+      </li>
+      <li nz-submenu>
+          <span title><i class="anticon anticon-bars"></i><span class="nav-text">Monitor</span></span>
+        <ul>
+          <li nz-menu-item>Transaction</li>
+          <li nz-menu-item>Exception</li>
+          <li nz-menu-item>Database</li>
+          <li nz-menu-item>NoSQL</li>
+          <li nz-menu-item>Threading</li>
+          <li nz-menu-item>Garbage Collection</li>
+        </ul>
+      </li>
+      <li nz-submenu>
+          <span title><i class="anticon anticon-bars"></i><span class="nav-text">Alerting</span></span>
+        <ul>
+          <li nz-menu-item>Alert List</li>
+          <li nz-menu-item>History</li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header style="background: #fff; padding:0;">
+      <i class="anticon trigger" [class.anticon-menu-fold]="!isCollapsed" [class.anticon-menu-unfold]="isCollapsed" (click)="isCollapsed=!isCollapsed"></i>
+    </nz-header>
+    <nz-content style="margin:0 16px;">
+      <nz-breadcrumb style="margin:12px 0;">
+        <nz-breadcrumb-item>User</nz-breadcrumb-item>
+        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <div style="padding:24px; background: #fff; min-height: 360px;">
+        Bill is a cat.
+      </div>
+    </nz-content>
+    <nz-footer style="text-align: center;">Ant Design ©2017 Implement By Angular</nz-footer>
+  </nz-layout>
+</nz-layout>
