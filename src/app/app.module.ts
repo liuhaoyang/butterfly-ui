@@ -7,12 +7,11 @@ import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {AppComponent} from './app.component';
 import { RouterModule }   from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
     declarations: [
-        AppComponent,
-        DashboardComponent
+        AppComponent
     ],
     imports: [
         BrowserModule,
@@ -21,7 +20,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
         BrowserAnimationsModule,
         NgZorroAntdModule.forRoot(),
         RouterModule,
-        AppRoutingModule
+        AppRoutingModule,
+        DashboardModule
     ],
     bootstrap: [AppComponent]
 })

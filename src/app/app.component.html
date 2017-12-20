@@ -1,25 +1,36 @@
 <nz-layout>
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" [nzCollapsedWidth]="0" [nzBreakpoint]="'lg'">
     <div class="logo">
-      <h1><a routerLink="/">Butterfly APM</a></h1>
+      <h1>
+        <a routerLink="/">Butterfly APM</a>
+      </h1>
     </div>
     <ul nz-menu [nzTheme]="'dark'" [nzMode]="isCollapsed?'vertical':'inline'">
       <li nz-submenu>
-        <span title><i class="anticon anticon-bars"></i><span class="nav-text">Dashboard</span></span>
+        <span title>
+          <i class="anticon anticon-bars"></i>
+          <span class="nav-text">Dashboard</span>
+        </span>
         <ul>
-          <li nz-menu-item>Overview</li>
-          <li nz-menu-item>Application</li>
+          <li nz-menu-item routerLink="/dashboard/overview">Overview</li>
+          <li nz-menu-item routerLink="/dashboard/application">Application</li>
         </ul>
       </li>
       <li nz-submenu>
-          <span title><i class="anticon anticon-bars"></i><span class="nav-text">Tracing</span></span>
+        <span title>
+          <i class="anticon anticon-bars"></i>
+          <span class="nav-text">Tracing</span>
+        </span>
         <ul>
           <li nz-menu-item>Tracing Tree</li>
           <li nz-menu-item>Dependencies</li>
         </ul>
       </li>
       <li nz-submenu>
-          <span title><i class="anticon anticon-bars"></i><span class="nav-text">Monitor</span></span>
+        <span title>
+          <i class="anticon anticon-bars"></i>
+          <span class="nav-text">Monitor</span>
+        </span>
         <ul>
           <li nz-menu-item>Transaction</li>
           <li nz-menu-item>Exception</li>
@@ -30,7 +41,10 @@
         </ul>
       </li>
       <li nz-submenu>
-          <span title><i class="anticon anticon-bars"></i><span class="nav-text">Alerting</span></span>
+        <span title>
+          <i class="anticon anticon-bars"></i>
+          <span class="nav-text">Alerting</span>
+        </span>
         <ul>
           <li nz-menu-item>Alert List</li>
           <li nz-menu-item>History</li>
@@ -44,11 +58,10 @@
     </nz-header>
     <nz-content style="margin:0 16px;">
       <nz-breadcrumb style="margin:12px 0;">
-        <nz-breadcrumb-item>User</nz-breadcrumb-item>
-        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
+        <nz-breadcrumb-item *ngFor="let nav of navs">{{nav}}</nz-breadcrumb-item>
       </nz-breadcrumb>
-      <div style="padding:24px; background: #fff; min-height: 360px;">
-        Bill is a cat.
+      <div style="padding:20px; background: #fff; min-height: 360px;">
+        <router-outlet></router-outlet>
       </div>
     </nz-content>
     <nz-footer style="text-align: center;">Ant Design ©2017 Implement By Angular</nz-footer>
