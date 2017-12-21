@@ -4,31 +4,24 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
-import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
-import { AppRoutingModule } from './app-routing.module';
-import { DashboardModule } from './dashboard/dashboard.module';
-import { HttpClientModule } from '@angular/common/http';
-import { TracingModule }  from './tracing/tracing.module';
+import { TracingRoutingModule } from './tracing-routing.module';
+import { FindTracesComponent } from './find-traces/find-traces.component';
 
 @NgModule({
     declarations: [
-        AppComponent
+        FindTracesComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
         BrowserAnimationsModule,
-        HttpClientModule,
         NgZorroAntdModule.forRoot(),
         RouterModule,
-        AppRoutingModule,
-        DashboardModule,
-        TracingModule
-    ],
-    bootstrap: [AppComponent]
+        TracingRoutingModule
+    ]
 })
 
-export class AppModule {
+export class TracingModule {
 }
