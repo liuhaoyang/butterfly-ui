@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TracingModule }  from './tracing/tracing.module';
+import { TraceService } from './services/trace.service'
 
 @NgModule({
     declarations: [
@@ -27,7 +28,10 @@ import { TracingModule }  from './tracing/tracing.module';
         DashboardModule,
         TracingModule
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    providers:[
+        TraceService
+    ]
 })
 
 export class AppModule {

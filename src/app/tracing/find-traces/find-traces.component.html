@@ -1,11 +1,11 @@
 <nz-table #nzTable [nzSize]="'middle'" [nzDataSource]="models" [nzPageSize]="10">
   <thead nz-thead>
     <tr>
+      <th nz-th><span>Trace Id</span></th>
       <th nz-th><span>Services</span></th>
+      <th nz-th><span>Duration</span></th>
       <th nz-th><span>Start Time</span></th>
       <th nz-th><span>Finish Time</span></th>
-      <th nz-th><span>Duration</span></th>
-      <th nz-th><span>Action</span></th>
     </tr>
   </thead>
   <tbody nz-tbody>
@@ -15,30 +15,8 @@
       </td>
       <td nz-td>{{model}}</td>
       <td nz-td>{{model}}</td>
-      <td nz-td>
-        <span>
-          <a href="#">Action 一 {{model}}</a>
-          <span nz-table-divider></span>
-          <a href="#">model</a>
-          <span nz-table-divider></span>
-          <nz-dropdown>
-            <a class="ant-dropdown-link" nz-dropdown>
-              More actions <i class="anticon anticon-down"></i>
-            </a>
-            <ul nz-menu>
-              <li nz-menu-item>
-                <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">1st menu item</a>
-              </li>
-              <li nz-menu-item>
-                <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">2nd menu item</a>
-              </li>
-              <li nz-menu-item>
-                <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">3rd menu item</a>
-              </li>
-            </ul>
-          </nz-dropdown>
-        </span>
-      </td>
+      <td nz-td>{{model}}</td>
+      <td nz-td>{{model}}</td>
     </tr>
   </tbody>
 </nz-table>

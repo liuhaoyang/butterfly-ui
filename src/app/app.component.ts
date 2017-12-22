@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Route, Router, NavigationEnd } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../environments/environment"
+import { environment } from "../environments/environment";
+import { TraceService } from './services/trace.service';
 
 @Component({
     selector: 'app-root',
@@ -14,7 +15,7 @@ export class AppComponent implements OnInit {
     navs: string[]
 
 
-    constructor(private router: Router, private http: HttpClient) {
+    constructor(private router: Router, private http: HttpClient,private trace : TraceService) {
 
     }
 
