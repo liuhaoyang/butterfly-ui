@@ -40,3 +40,7 @@ nz-layout {
     line-height: 31px;
     margin-left: 10px;
 }
+
+ul li {
+  outline: none;
+}

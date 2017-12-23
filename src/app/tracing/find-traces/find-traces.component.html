@@ -1,0 +1,38 @@
+<nz-table #nzTable [nzSize]="'middle'" [nzLoading]="loading" [nzAjaxData]="model.data" 
+  [nzTotal]="model.totalMemberCount" nzShowSizeChanger  [(nzPageIndex)]="model.pageNumber" [(nzPageSize)]="model.pageSize"
+  (nzPageIndexChange)="refreshData()" (nzPageSizeChange)="refreshData()">
+  <thead nz-thead>
+    <tr>
+      <th nz-th [nzWidth]="'270px'">
+        <span>Trace Id</span>
+      </th>
+      <th nz-th [nzWidth]="'15%'">
+        <span>Services</span>
+      </th>
+      <th nz-th [nzWidth]="'30%'">
+        <span>Duration</span>
+      </th>
+      <th nz-th>
+        <span>Start Time</span>
+      </th>
+      <th nz-th>
+        <span>Finish Time</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody nz-tbody>
+    <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+      <td nz-td>
+        <a>{{ data.traceId }}</a>
+      </td>
+      <td nz-td>
+        <nz-tag *ngFor="let service of data.displayServices">{{ service.name }} x {{ service.count }}</nz-tag>
+      </td>
+      <td nz-td>
+        <div class="duration" [style.width]="data.durationWidth+'%'">{{ data.displayDuration }}</div>
+      </td>
+      <td nz-td>{{ data.startTimestamp }}</td>
+      <td nz-td>{{ data.finishTimestamp }}</td>
+    </tr>
+  </tbody>
+</nz-table>
