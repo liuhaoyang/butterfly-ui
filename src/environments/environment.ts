@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  collectorUrl: "http://localhost:9618"
+  collectorapi: "http://localhost:9618/api/"
 };

@@ -4,13 +4,16 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { NZ_LOCALE, enUS } from 'ng-zorro-antd';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HttpClientModule } from '@angular/common/http';
 import { TracingModule }  from './tracing/tracing.module';
-import { TraceService } from './services/trace.service'
+import { TraceService } from './services/trace.service';
+import { UrlUtils } from './services/url.utils';
+import { LinqService } from 'ng2-linq';
 
 @NgModule({
     declarations: [
@@ -30,7 +33,10 @@ import { TraceService } from './services/trace.service'
     ],
     bootstrap: [AppComponent],
     providers:[
-        TraceService
+        { provide: NZ_LOCALE, useValue: enUS },
+        TraceService,
+        UrlUtils,
+        LinqService
     ]
 })
 
