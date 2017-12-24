@@ -1,3 +1,29 @@
-<p>
-  trace works!
-</p>
+<div nz-row>
+    <div nz-col [nzSpan]="12">
+      <!-- <h1>Bacend: /api/trace/id</h1> -->
+    </div>
+</div>
+<div nz-row class="traceDetail-data">
+    <nz-table #nzTable [nzSize]="'middle'" [nzLoading]="loading" [nzDataSource]="detailViewModel.spans" [nzIsPagination]="false">
+    <thead nz-thead>
+      <tr>
+        <th nz-th [nzWidth]="'20%'">
+          <span>Span</span>
+        </th>
+        <th nz-th>
+          <span>Timeline</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let data of nzTable.data" routerLink="/tracing/trace/{{ data.traceId }}">
+        <td nz-td>
+          <span class="span-service">Mysql</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="span-name">{{ data.operationName }}</span>
+        </td>
+        <td nz-td>       
+          <div style="margin-left:50%">123</div>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

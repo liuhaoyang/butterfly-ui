@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { TraceService } from '../../services/trace.service';
+import { TraceDetailViewModel } from '../../models/tracedetail.viewModel';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-trace',
@@ -7,9 +11,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TraceComponent implements OnInit {
 
-  constructor() { }
+  loading: boolean = false;
+  detailViewModel: TraceDetailViewModel;
 
-  ngOnInit() {
+  constructor(private traceService: TraceService, private route: ActivatedRoute) {
+    this.detailViewModel = new TraceDetailViewModel();
   }
 
+  ngOnInit() {
+    this.route.paramMap
+      .switchMap((params: ParamMap) => this.traceService.getTraceDetail(params.get('id')))
+      .subscribe((result: TraceDetailViewModel) => this.detailViewModel = result);
+  }
 }

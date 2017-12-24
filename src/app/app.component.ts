@@ -8,8 +8,9 @@ import { Route, Router, NavigationEnd } from '@angular/router';
 })
 
 export class AppComponent implements OnInit {
+
     isCollapsed = false;
-    navs: string[]
+    breadcrumbs;
 
     constructor(private router: Router) {
     }
@@ -17,17 +18,17 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.router.events.filter(event => event instanceof NavigationEnd)
             .subscribe((event: any) => {
-                this.navs = event.urlAfterRedirects.split('/').filter(x => x != "");
-                this.subNavsQueryString(this.navs);
+                this.breadcrumbs = event.urlAfterRedirects.split('/').filter(x => x != "");
+                this.subNavsQueryString(this.breadcrumbs);
             });
     }
 
-    subNavsQueryString(navs: string[]): void {
-        for (let i = 0; i < navs.length; i++) {
-            let item = navs[i];
+    subNavsQueryString(breadcrumbs: string[]): void {
+        for (let i = 0; i < breadcrumbs.length; i++) {
+            let item = breadcrumbs[i];
             let indexOf = item.indexOf("?");
             if (indexOf != -1) {
-                navs[i] = item.substring(0, indexOf);
+                breadcrumbs[i] = item.substring(0, indexOf);
             }
         }
     }

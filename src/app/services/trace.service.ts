@@ -6,8 +6,7 @@ import { PageViewModel } from '../models/page.viewModel';
 import { TraceViewModel, DisplayServiceViewModel, SearchTraceViewModel } from '../models/trace.viewModel';
 import { LinqService } from 'ng2-linq';
 import { forEach } from '@angular/router/src/utils/collection';
-import 'rxjs/add/operator/filter';
-
+import { TraceDetailViewModel } from '../models/tracedetail.viewModel';
 
 @Injectable()
 export class TraceService {
@@ -46,8 +45,8 @@ export class TraceService {
             item.displayServices = displayServices;
             item.displayDuration = item.duration < 1000 ? item.duration + "μs" : item.duration / 1000.0 + "ms";
             item.durationWidth = item.duration / maxDuration * 100;
-            if (item.durationWidth < 6) {
-                item.durationWidth = 6;
+            if (item.durationWidth < 8) {
+                item.durationWidth = 8;
             }
         });
 
@@ -56,5 +55,11 @@ export class TraceService {
 
     async getServices(): Promise<string[]> {
         return await this.http.get<string[]>(this.url.getService).toPromise();
+    }
+
+    async getTraceDetail(traceId: string): Promise<TraceDetailViewModel> {
+        var trace = await this.http.get<TraceDetailViewModel>(this.url.getTraceDetail + traceId).toPromise();
+        trace.displayDuration = trace.duration < 1000 ? trace.duration + "μs" : trace.duration / 1000.0 + "ms";
+        return trace;
     }
 }
