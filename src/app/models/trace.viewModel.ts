@@ -15,6 +15,7 @@ export class TraceViewModel {
     displayDuration: string;
 
     durationWidth: number;
+
 }
 
 export class TraceServiceViewModel {
@@ -29,5 +30,22 @@ export class DisplayServiceViewModel {
     constructor(name: string, count: number) {
         this.name = name;
         this.count = count;
+    }
+}
+
+export class SearchTraceViewModel {
+
+    service: string;
+
+    startTimestamp: Date;
+
+    finishTimestamp: Date;
+
+    tags: string;
+
+    constructor() {
+        this.finishTimestamp = new Date();
+        this.startTimestamp = new Date();
+        this.startTimestamp.setMinutes(this.startTimestamp.getMinutes() - 30);
     }
 }

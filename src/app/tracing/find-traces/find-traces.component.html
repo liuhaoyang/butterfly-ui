@@ -1,38 +1,59 @@
-<nz-table #nzTable [nzSize]="'middle'" [nzLoading]="loading" [nzAjaxData]="model.data" 
-  [nzTotal]="model.totalMemberCount" nzShowSizeChanger  [(nzPageIndex)]="model.pageNumber" [(nzPageSize)]="model.pageSize"
-  (nzPageIndexChange)="refreshData()" (nzPageSizeChange)="refreshData()">
-  <thead nz-thead>
-    <tr>
-      <th nz-th [nzWidth]="'270px'">
-        <span>Trace Id</span>
-      </th>
-      <th nz-th [nzWidth]="'15%'">
-        <span>Services</span>
-      </th>
-      <th nz-th [nzWidth]="'30%'">
-        <span>Duration</span>
-      </th>
-      <th nz-th>
-        <span>Start Time</span>
-      </th>
-      <th nz-th>
-        <span>Finish Time</span>
-      </th>
-    </tr>
-  </thead>
-  <tbody nz-tbody>
-    <tr nz-tbody-tr *ngFor="let data of nzTable.data">
-      <td nz-td>
-        <a>{{ data.traceId }}</a>
-      </td>
-      <td nz-td>
-        <nz-tag *ngFor="let service of data.displayServices">{{ service.name }} x {{ service.count }}</nz-tag>
-      </td>
-      <td nz-td>
-        <div class="duration" [style.width]="data.durationWidth+'%'">{{ data.displayDuration }}</div>
-      </td>
-      <td nz-td>{{ data.startTimestamp }}</td>
-      <td nz-td>{{ data.finishTimestamp }}</td>
-    </tr>
-  </tbody>
-</nz-table>
+<div nz-row>
+  <nz-select class="trace-search" [(ngModel)]="searchViewModel.service" [nzPlaceHolder]="'select service'" (nzOpenChange)="serviceSelectorOpen()"
+    nzShowSearch nzAllowClear>
+    <nz-option *ngFor="let service of services" [nzLabel]="service" [nzValue]="service">
+    </nz-option>
+  </nz-select>
+  <nz-input style="width:240px; margin: 5px;" [nzType]="'text'" [nzPlaceHolder]="'http.status_code=200|http.method=GET'" [(ngModel)]="searchViewModel.tags"></nz-input>
+  <nz-datepicker class="trace-search" [(ngModel)]="searchViewModel.startTimestamp" nzShowTime [nzPlaceHolder]="'select startTime'"
+    [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+  <nz-datepicker class="trace-search" [(ngModel)]="searchViewModel.finishTimestamp" nzShowTime [nzPlaceHolder]="'select finishTime'"
+    [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+  <button style="margin: 5px;" nz-button [nzType]="'default'" (click)="refreshData()">
+    <i class="anticon anticon-search"></i>
+    <span>Search</span>
+  </button>
+</div>
+<div nz-row class="data">
+  <nz-table #nzTable [nzSize]="'middle'" [nzLoading]="loading" [nzAjaxData]="traceViewModel.data" [nzTotal]="traceViewModel.totalMemberCount"
+    nzShowSizeChanger [(nzPageIndex)]="traceViewModel.pageNumber" [(nzPageSize)]="traceViewModel.pageSize" (nzPageIndexChange)="refreshData()"
+    (nzPageSizeChange)="refreshData()">
+    <thead nz-thead>
+      <tr>
+        <th nz-th [nzWidth]="'270px'">
+          <span>TraceId</span>
+        </th>
+        <th nz-th [nzWidth]="'15%'">
+          <span>Services</span>
+        </th>
+        <th nz-th [nzWidth]="'30%'">
+          <span>Duration</span>
+        </th>
+        <th nz-th>
+          <span>StartTime</span>
+        </th>
+        <th nz-th>
+          <span>FinishTime</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+        <td nz-td>
+          <a routerLink="/tracing/trace/{{ data.traceId }}">{{ data.traceId }}</a>
+        </td>
+        <td nz-td>
+          <span *ngFor="let service of data.displayServices">
+            <nz-tag *ngIf="service.name != searchViewModel.service">{{ service.name }} x {{ service.count }}</nz-tag>
+            <nz-tag *ngIf="service.name == searchViewModel.service" [nzColor]="'#479ed4'">{{ service.name }} x {{ service.count }}</nz-tag>
+          </span>
+        </td>
+        <td nz-td>
+          <div class="duration" [style.width]="data.durationWidth+'%'">{{ data.displayDuration }}</div>
+        </td>
+        <td nz-td>{{ data.startTimestamp | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td nz-td>{{ data.finishTimestamp | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

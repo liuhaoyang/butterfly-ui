@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { UrlUtils } from './url.utils';
 import { PageViewModel } from '../models/page.viewModel';
-import { TraceViewModel, DisplayServiceViewModel } from '../models/trace.viewModel';
+import { TraceViewModel, DisplayServiceViewModel, SearchTraceViewModel } from '../models/trace.viewModel';
 import { LinqService } from 'ng2-linq';
 import { forEach } from '@angular/router/src/utils/collection';
 import 'rxjs/add/operator/filter';
@@ -15,13 +15,29 @@ export class TraceService {
     constructor(private http: HttpClient, private url: UrlUtils, private linq: LinqService) {
     }
 
-    async getTraces(pageNumber: number = 1, pageSize: number = 10): Promise<PageViewModel<TraceViewModel>> {
+    async getTraces(search: SearchTraceViewModel, pageNumber: number = 1, pageSize: number = 10): Promise<PageViewModel<TraceViewModel>> {
 
-        var httpParams = new HttpParams().set("pageNumber", pageNumber.toString()).set("pageSize", pageSize.toString());
+        var httpParams = new HttpParams()
+            .set("pageNumber", pageNumber.toString())
+            .set("pageSize", pageSize.toString());
 
-        console.log(httpParams);
+        if (search.service != null) {
+            httpParams = httpParams.set("service", search.service);
+        }
 
-        let result = await this.http.get<PageViewModel<TraceViewModel>>(this.url.getTrace, { params: httpParams}).toPromise();
+        if (search.startTimestamp != null) {
+            httpParams = httpParams.set("startTimestamp", search.startTimestamp.toLocaleString());
+        }
+
+        if (search.finishTimestamp != null) {
+            httpParams = httpParams.set("finishTimestamp", search.finishTimestamp.toLocaleString());
+        }
+
+        let result = await this.http.get<PageViewModel<TraceViewModel>>(this.url.getTrace, { params: httpParams }).toPromise();
+
+        if (result.data.length == 0) {
+            return result;
+        }
 
         let maxDuration = this.linq.Enumerable().From(result.data).Max(x => x.duration);
 
@@ -36,5 +52,9 @@ export class TraceService {
         });
 
         return result;
+    }
+
+    async getServices(): Promise<string[]> {
+        return await this.http.get<string[]>(this.url.getService).toPromise();
     }
 }

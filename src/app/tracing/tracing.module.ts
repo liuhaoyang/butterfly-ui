@@ -7,10 +7,12 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { RouterModule } from '@angular/router';
 import { TracingRoutingModule } from './tracing-routing.module';
 import { FindTracesComponent } from './find-traces/find-traces.component';
+import { TraceComponent } from './trace/trace.component';
 
 @NgModule({
     declarations: [
-        FindTracesComponent
+        FindTracesComponent,
+        TraceComponent
     ],
     imports: [
         BrowserModule,
