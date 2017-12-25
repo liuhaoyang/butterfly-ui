@@ -3,9 +3,47 @@
 }
 
 .span-service {
-  font-size: 13px;
+  font-size: 14px;
+  /* font-weight: bold; */
 }
 
 .span-name {
   font-style: italic;
+  /* font-weight: bold; */
+}
+
+.timeline-header{
+  text-align: right;
+}
+
+.timeline-mark {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 10px;
+}
+
+.timelin-timespan {
+  border-right: 1px solid #dbd9d9;
+  padding-right: 10px;
+}
+
+.timeline-container {
+  background-color: rgba(71, 158, 212,0.4);
+  padding-left: 10px;
+  padding-top: 1px;
+  line-height: 16px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 13px;
+  transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+tr th{
+  border-right: 1px solid #e9e9e9;
+}
+
+tr td{
+  border-bottom: none;
+  border-right: 1px solid #e9e9e9;
 }

@@ -6,7 +6,8 @@ import { PageViewModel } from '../models/page.viewModel';
 import { TraceViewModel, DisplayServiceViewModel, SearchTraceViewModel } from '../models/trace.viewModel';
 import { LinqService } from 'ng2-linq';
 import { forEach } from '@angular/router/src/utils/collection';
-import { TraceDetailViewModel } from '../models/tracedetail.viewModel';
+import { TraceDetailViewModel, SpanViewModel } from '../models/tracedetail.viewModel';
+import { utils } from "../app.utils";
 
 @Injectable()
 export class TraceService {
@@ -43,7 +44,7 @@ export class TraceService {
         result.data.forEach((item, index) => {
             let displayServices = this.linq.Enumerable().From(item.services).GroupBy(x => x.name).Select(x => new DisplayServiceViewModel(x.Key(), x.Count())).ToArray();
             item.displayServices = displayServices;
-            item.displayDuration = item.duration < 1000 ? item.duration + "μs" : item.duration / 1000.0 + "ms";
+            item.displayDuration = utils.toDisplayDuration(item.duration);
             item.durationWidth = item.duration / maxDuration * 100;
             if (item.durationWidth < 8) {
                 item.durationWidth = 8;
@@ -58,8 +59,15 @@ export class TraceService {
     }
 
     async getTraceDetail(traceId: string): Promise<TraceDetailViewModel> {
-        var trace = await this.http.get<TraceDetailViewModel>(this.url.getTraceDetail + traceId).toPromise();
-        trace.displayDuration = trace.duration < 1000 ? trace.duration + "μs" : trace.duration / 1000.0 + "ms";
+        let trace = await this.http.get<TraceDetailViewModel>(this.url.getTraceDetail + traceId).toPromise();
+        trace.displayDuration = utils.toDisplayDuration(trace.duration);
+        let traceDuration = trace.duration;
+        let start = trace.startTimestamp;
+        trace.spans.forEach((span, index) => {
+            span.displayDuration = utils.toDisplayDuration(span.duration);
+            span.displayWidth = span.duration / traceDuration * 100;
+            span.displayOffset = span.offset / traceDuration * 100;
+        });
         return trace;
     }
 }
