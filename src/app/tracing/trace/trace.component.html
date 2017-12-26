@@ -42,8 +42,12 @@
       </tr>
     </thead>
     <tbody nz-tbody>
+      <ng-template ngFor let-data [ngForOf]="nzTable.data">
+      </ng-template>
+
       <tr nz-tbody-tr *ngFor="let data of nzTable.data" routerLink="/tracing/trace/{{ data.traceId }}">
         <td nz-td>
+          <nz-row-expand-icon [nzExpand]="false" [nzShowExpand]="'false'"></nz-row-expand-icon>
           <span class="span-service">{{ data.serviceName }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
           <span class="span-name">{{ data.operationName }}</span>
         </td>
