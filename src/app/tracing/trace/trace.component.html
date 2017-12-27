@@ -1,7 +1,6 @@
 <div nz-row>
   <div nz-col [nzSpan]="12">
     <!-- <h1>Bacend: /api/trace/id</h1> -->
-    {{ detailViewModel.displayDuration }}
   </div>
 </div>
 <div nz-row class="traceDetail-data">
@@ -32,10 +31,10 @@
               <span class="timeline-mark">{{ timeline.Q6 }}</span>
             </div>
             <div nz-col [nzSpan]="3" class="timelin-timespan">
-              <span class="timeline-mark">{{ timeline.Q5 }}</span>
+              <span class="timeline-mark">{{ timeline.Q7 }}</span>
             </div>
             <div nz-col [nzSpan]="3">
-              <span class="timeline-mark">{{ timeline.Q6 }}</span>
+              <span class="timeline-mark">{{ timeline.Q8 }}</span>
             </div>
           </div>
         </th>
@@ -47,7 +46,7 @@
 
       <tr nz-tbody-tr *ngFor="let data of nzTable.data" routerLink="/tracing/trace/{{ data.traceId }}">
         <td nz-td>
-          <nz-row-expand-icon [nzExpand]="false" [nzShowExpand]="'false'"></nz-row-expand-icon>
+          <nz-row-expand-icon [nzExpand]="false" [nzShowExpand]="'true'"></nz-row-expand-icon>
           <span class="span-service">{{ data.serviceName }}</span>&nbsp;&nbsp;&nbsp;&nbsp;
           <span class="span-name">{{ data.operationName }}</span>
         </td>
