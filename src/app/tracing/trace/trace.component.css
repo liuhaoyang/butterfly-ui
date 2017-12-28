@@ -1,3 +1,9 @@
+.title{
+  font-size: 14px;
+  margin-right: 10px;
+  font-weight: 500;
+}
+
 .traceDetail-data {
   margin-top: 20px;
 }
@@ -28,7 +34,7 @@
 }
 
 .timeline-container {
-  background-color: rgba(71, 158, 212,0.4);
+  background-color: rgba(71, 158, 212,0.5);
   padding-left: 10px;
   padding-top: 1px;
   line-height: 16px;

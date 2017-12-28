@@ -61,13 +61,18 @@ export class TraceService {
     async getTraceDetail(traceId: string): Promise<TraceDetailViewModel> {
         let trace = await this.http.get<TraceDetailViewModel>(this.url.getTraceDetail + traceId).toPromise();
         trace.displayDuration = utils.toDisplayDuration(trace.duration);
+        let services = new Map<string, string>();
         let traceDuration = trace.duration;
         let start = trace.startTimestamp;
         trace.spans.forEach((span, index) => {
             span.displayDuration = utils.toDisplayDuration(span.duration);
             span.displayWidth = span.duration / traceDuration * 100;
             span.displayOffset = span.offset / traceDuration * 100;
+            if (!services.has(span.serviceName)) {
+                services.set(span.serviceName, span.serviceName);
+            }
         });
+        trace.services = services.size;
         return trace;
     }
 }

@@ -12,6 +12,8 @@ export class TraceDetailViewModel {
 
     spans: SpanViewModel[] = [];
 
+    services: number;
+
 }
 
 export class SpanViewModel {

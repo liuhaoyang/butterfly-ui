@@ -1,6 +1,8 @@
 <div nz-row>
   <div nz-col [nzSpan]="12">
-    <!-- <h1>Bacend: /api/trace/id</h1> -->
+    <span class="title">Duration:  <nz-tag>{{ detailViewModel.displayDuration }}</nz-tag></span>
+    <span class="title">Services:  <nz-tag>{{ detailViewModel.services }}</nz-tag></span>
+    <span class="title">Spans:  <nz-tag>{{ detailViewModel.spans.length }}</nz-tag></span>
   </div>
 </div>
 <div nz-row class="traceDetail-data">
