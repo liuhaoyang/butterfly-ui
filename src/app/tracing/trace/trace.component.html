@@ -36,7 +36,7 @@
           <td nz-td>
             <nz-row-indent [nzIndentSize]="data.level"></nz-row-indent>
             <nz-row-expand-icon [(nzExpand)]="data.expand" [nzShowExpand]="data.hasChildren" (nzExpandChange)="collapse(data,false)"></nz-row-expand-icon>
-            <a (click)="showSpanDetail(data.spanId)">
+            <a (click)="showSpanDetail(data)">
               <span class="span-service">{{ data.serviceName }}</span>
               <span class="span-name">{{ data.operationName }}</span>
             </a>

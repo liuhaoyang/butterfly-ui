@@ -7,6 +7,7 @@ import { TraceViewModel, DisplayServiceViewModel, SearchTraceViewModel } from '.
 import { LinqService } from 'ng2-linq';
 import { forEach } from '@angular/router/src/utils/collection';
 import { TraceDetailViewModel, SpanViewModel } from '../models/tracedetail.viewModel';
+import { SpanDetailViewModel } from '../models/spandetail.viewModel';
 import { utils } from "../app.utils";
 
 @Injectable()
@@ -93,5 +94,12 @@ export class TraceService {
             }
         }
         return spans;
+    }
+
+    async  getSpanDetail(spanId: string): Promise<SpanDetailViewModel> {
+        var span = await this.http.get<SpanDetailViewModel>(this.url.getSpanDetail + spanId).toPromise();
+        span.displayDuration = utils.toDisplayDuration(span.duration);
+        
+        return span;
     }
 }

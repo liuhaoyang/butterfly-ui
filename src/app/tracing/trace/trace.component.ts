@@ -51,22 +51,15 @@ export class TraceComponent implements OnInit {
     }
   }
 
-  showSpanDetail(spanId: string) {
+  showSpanDetail(span: SpanViewModel) {
     const subscription = this.modalService.open({
-      title: 'Span Detail',
+      title: span.operationName,
       content: SpanComponent,
-      onOk() {
-      },
-      onCancel() {
-        //console.log('Click cancel');
-      },
+      width: document.body.clientWidth * 0.75,
       footer: false,
       componentParams: {
-        SpanId: spanId
+        SpanId: span.spanId
       }
     });
-    subscription.subscribe(result => {
-      //console.log(result);
-    })
   }
-}
+} 
