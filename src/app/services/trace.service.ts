@@ -61,18 +61,37 @@ export class TraceService {
     async getTraceDetail(traceId: string): Promise<TraceDetailViewModel> {
         let trace = await this.http.get<TraceDetailViewModel>(this.url.getTraceDetail + traceId).toPromise();
         trace.displayDuration = utils.toDisplayDuration(trace.duration);
+        let spans = this.expandTree(trace.spans, null, 0);
         let services = new Map<string, string>();
         let traceDuration = trace.duration;
         let start = trace.startTimestamp;
-        trace.spans.forEach((span, index) => {
+        for (let span of spans) {
             span.displayDuration = utils.toDisplayDuration(span.duration);
             span.displayWidth = span.duration / traceDuration * 100;
             span.displayOffset = span.offset / traceDuration * 100;
             if (!services.has(span.serviceName)) {
                 services.set(span.serviceName, span.serviceName);
             }
-        });
+        }
         trace.services = services.size;
+        trace.spans = spans;
         return trace;
+    }
+
+    private expandTree(childern: SpanViewModel[], parent: SpanViewModel, level: number): SpanViewModel[] {
+        let spans = [];
+        for (let span of childern) {
+            span.level = level;
+            span.parent = parent;
+            span.hasChildren = span.children && span.children.length > 0;
+            spans.push(span);
+            if (span.hasChildren) {
+                let childs = this.expandTree(span.children, span, level + 1);
+                for (let child of childs) {
+                    spans.push(child);
+                }
+            }
+        }
+        return spans;
     }
 }

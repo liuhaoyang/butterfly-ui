@@ -13,7 +13,6 @@ export class TraceDetailViewModel {
     spans: SpanViewModel[] = [];
 
     services: number;
-
 }
 
 export class SpanViewModel {
@@ -39,16 +38,14 @@ export class SpanViewModel {
     displayOffset: number;
 
     displayWidth: number;
-}
 
-export class TraceTimelineViewModel {
+    children: SpanViewModel[];
 
-    Q1: string = "0 μs";
-    Q2: string = "0 μs";
-    Q3: string = "0 μs";
-    Q4: string = "0 μs";
-    Q5: string = "0 μs";
-    Q6: string = "0 μs";
-    Q7: string = "0 μs";
-    Q8: string = "0 μs";
+    parent: SpanViewModel;
+
+    expand: boolean;
+
+    hasChildren: boolean;
+
+    level: number;
 }

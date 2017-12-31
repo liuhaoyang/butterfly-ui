@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { TraceService } from '../../services/trace.service';
-import { TraceDetailViewModel, TraceTimelineViewModel } from '../../models/tracedetail.viewModel';
+import { TraceDetailViewModel, SpanViewModel } from '../../models/tracedetail.viewModel';
 import 'rxjs/add/operator/switchMap';
 import { utils } from "../../app.utils";
+import { fadeAnimation } from 'ng-zorro-antd/src/core/animation/fade-animations';
+import { NzModalService } from 'ng-zorro-antd';
+import { SpanComponent } from '../span/span.component'
 
 @Component({
   selector: 'app-trace',
@@ -14,11 +17,10 @@ export class TraceComponent implements OnInit {
 
   loading: boolean = false;
   detailViewModel: TraceDetailViewModel;
-  timeline: TraceTimelineViewModel;
+  timelines: string[] = [];
 
-  constructor(private traceService: TraceService, private route: ActivatedRoute) {
+  constructor(private traceService: TraceService, private route: ActivatedRoute, private modalService: NzModalService) {
     this.detailViewModel = new TraceDetailViewModel();
-    this.timeline = new TraceTimelineViewModel();
   }
 
   ngOnInit() {
@@ -32,67 +34,39 @@ export class TraceComponent implements OnInit {
   }
 
   bindTineLine(duration: number) {
-    this.timeline.Q1 = utils.toDisplayDuration(duration / 8);
-    this.timeline.Q2 = utils.toDisplayDuration(duration * 2 / 8);
-    this.timeline.Q3 = utils.toDisplayDuration(duration * 3 / 8);
-    this.timeline.Q4 = utils.toDisplayDuration(duration * 4 / 8);
-    this.timeline.Q5 = utils.toDisplayDuration(duration * 5 / 8);
-    this.timeline.Q6 = utils.toDisplayDuration(duration * 6 / 8);
-    this.timeline.Q7 = utils.toDisplayDuration(duration * 7 / 8);
-    this.timeline.Q8 = utils.toDisplayDuration(duration);
+    for (let i = 2; i <= 8; i++) {
+      this.timelines.push(utils.toDisplayDuration(duration * i / 8));
+    }
   }
 
-  data = [
-    {
-      key     : 1,
-      name    : 'John Brown sr.',
-      age     : 60,
-      address : 'New York No. 1 Lake Park',
-      children: [ {
-        key    : 11,
-        name   : 'John Brown',
-        age    : 42,
-        address: 'New York No. 2 Lake Park',
-      }, {
-        key     : 12,
-        name    : 'John Brown jr.',
-        age     : 30,
-        address : 'New York No. 3 Lake Park',
-        children: [ {
-          key    : 121,
-          name   : 'Jimmy Brown',
-          age    : 16,
-          address: 'New York No. 3 Lake Park',
-        } ],
-      }, {
-        key     : 13,
-        name    : 'Jim Green sr.',
-        age     : 72,
-        address : 'London No. 1 Lake Park',
-        children: [ {
-          key     : 131,
-          name    : 'Jim Green',
-          age     : 42,
-          address : 'London No. 2 Lake Park',
-          children: [ {
-            key    : 1311,
-            name   : 'Jim Green jr.',
-            age    : 25,
-            address: 'London No. 3 Lake Park',
-          }, {
-            key    : 1312,
-            name   : 'Jimmy Green sr.',
-            age    : 18,
-            address: 'London No. 4 Lake Park',
-          } ],
-        } ],
-      } ],
-    },
-    {
-      key    : 2,
-      name   : 'Joe Black',
-      age    : 32,
-      address: 'Sidney No. 1 Lake Park',
+  collapse(span: SpanViewModel, expand: boolean) {
+    if (expand) {
+      return;
     }
-  ];
+    if (span.hasChildren) {
+      for (let child of span.children) {
+        child.expand = expand;
+        this.collapse(child, expand);
+      }
+    }
+  }
+
+  showSpanDetail(spanId: string) {
+    const subscription = this.modalService.open({
+      title: 'Span Detail',
+      content: SpanComponent,
+      onOk() {
+      },
+      onCancel() {
+        //console.log('Click cancel');
+      },
+      footer: false,
+      componentParams: {
+        SpanId: spanId
+      }
+    });
+    subscription.subscribe(result => {
+      //console.log(result);
+    })
+  }
 }

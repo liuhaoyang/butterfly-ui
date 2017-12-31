@@ -8,11 +8,13 @@ import { RouterModule } from '@angular/router';
 import { TracingRoutingModule } from './tracing-routing.module';
 import { FindTracesComponent } from './find-traces/find-traces.component';
 import { TraceComponent } from './trace/trace.component';
+import { SpanComponent } from './span/span.component';
 
 @NgModule({
     declarations: [
         FindTracesComponent,
-        TraceComponent
+        TraceComponent,
+        SpanComponent
     ],
     imports: [
         BrowserModule,

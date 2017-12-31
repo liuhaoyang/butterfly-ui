@@ -16,32 +16,34 @@
 </div>
 <div nz-row class="trace-data">
   <nz-table #nzTable [nzSize]="'middle'" [nzLoading]="loading" [nzAjaxData]="traceViewModel.data" [nzTotal]="traceViewModel.totalMemberCount"
-    nzShowSizeChanger [(nzPageIndex)]="traceViewModel.pageNumber" [(nzPageSize)]="traceViewModel.pageSize" (nzPageIndexChange)="refreshData()"
-    (nzPageSizeChange)="refreshData()">
+    nzShowSizeChanger [(nzPageIndex)]="traceViewModel.pageNumber" [(nzPageSize)]="traceViewModel.pageSize"
+    (nzPageIndexChange)="refreshData()" (nzPageSizeChange)="refreshData()">
     <thead nz-thead>
       <tr>
-        <th nz-th [nzWidth]="'270px'">
+        <!-- <th nz-th [nzWidth]="'270px'">
           <span>TraceId</span>
-        </th>
+        </th> -->
         <th nz-th>
           <span>Services</span>
         </th>
         <th nz-th [nzWidth]="'40%'">
           <span>Duration</span>
         </th>
-        <th nz-th [nzWidth]="'180px'">
+        <th nz-th>
           <span>TraceStart</span>
         </th>
-        <th nz-th [nzWidth]="'180px'">
+        <th nz-th>
           <span>TraceFinish</span>
+        </th>
+        <th nz-th>
         </th>
       </tr>
     </thead>
     <tbody nz-tbody>
-      <tr nz-tbody-tr *ngFor="let data of nzTable.data" [routerLink]="['/tracing/trace', data.traceId]">
-        <td nz-td>
+      <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+        <!-- <td nz-td>
           <span>{{ data.traceId }}</span>
-        </td>
+        </td> -->
         <td nz-td>
           <span *ngFor=" let service of data.displayServices ">
             <nz-tag *ngIf="service.name != searchViewModel.service ">{{ service.name }} x {{ service.count }}</nz-tag>
@@ -49,13 +51,18 @@
           </span>
         </td>
         <td nz-td style="padding-right:2%;">
-          <div class="duration " [style.width]="data.durationWidth+ '%' ">{{ data.displayDuration }}</div>
+          <div [routerLink]="['/tracing/trace', data.traceId]" class="duration " [style.width]="data.durationWidth+ '%' ">{{ data.displayDuration }}</div>
         </td>
         <td nz-td>
           <span>{{ data.startTimestamp | date: 'yyyy-MM-dd HH:mm:ss.SSS'}}</span>
         </td>
         <td nz-td>
           <span>{{ data.finishTimestamp | date: 'yyyy-MM-dd HH:mm:ss.SSS'}}</span>
+        </td>
+        <td nz-td>
+          <span>
+            <a [routerLink]="['/tracing/trace', data.traceId]">Detail</a>
+          </span>
         </td>
       </tr>
     </tbody>
