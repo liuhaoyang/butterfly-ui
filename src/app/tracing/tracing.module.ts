@@ -9,12 +9,14 @@ import { TracingRoutingModule } from './tracing-routing.module';
 import { FindTracesComponent } from './find-traces/find-traces.component';
 import { TraceComponent } from './trace/trace.component';
 import { SpanComponent } from './span/span.component';
+import { DependencyComponent } from './dependency/dependency.component';
 
 @NgModule({
     declarations: [
         FindTracesComponent,
         TraceComponent,
-        SpanComponent
+        SpanComponent,
+        DependencyComponent
     ],
     imports: [
         BrowserModule,

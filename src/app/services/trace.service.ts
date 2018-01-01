@@ -26,6 +26,10 @@ export class TraceService {
             httpParams = httpParams.set("service", search.service);
         }
 
+        if (search.tags != null) {
+            httpParams = httpParams.set("tags", search.tags);
+        }
+
         if (search.startTimestamp != null) {
             httpParams = httpParams.set("startTimestamp", search.startTimestamp.toLocaleString());
         }
@@ -99,7 +103,7 @@ export class TraceService {
     async  getSpanDetail(spanId: string): Promise<SpanDetailViewModel> {
         var span = await this.http.get<SpanDetailViewModel>(this.url.getSpanDetail + spanId).toPromise();
         span.displayDuration = utils.toDisplayDuration(span.duration);
-        
+
         return span;
     }
 }
