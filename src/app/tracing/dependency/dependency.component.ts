@@ -1,44 +1,82 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import * as echarts from 'echarts'
+import { TraceService } from '../../services/trace.service';
+import * as echarts from 'echarts';
+import { EChartOption } from 'echarts';
 
 @Component({
-  selector: 'app-dependency',
-  templateUrl: './dependency.component.html',
-  styleUrls: ['./dependency.component.css']
+    selector: 'app-dependency',
+    templateUrl: './dependency.component.html',
+    styleUrls: ['./dependency.component.css']
 })
 export class DependencyComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+    constructor(private traceService: TraceService) {
+    }
 
-  ngOnInit() {
-    let divElement = <HTMLDivElement>document.getElementById('main');
+    async ngOnInit() {
 
-    console.log(divElement.id);
+        let divElement = <HTMLDivElement>document.getElementById('main');
 
-    var myChart = echarts.init(divElement);
+        var chart = echarts.init(divElement);
 
-    // 指定图表的配置项和数据
-    var option = {
-        title: {
-            text: 'ECharts 入门示例'
-        },
-        tooltip: {},
-        legend: {
-            data:['销量']
-        },
-        xAxis: {
-            data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
-        },
-        yAxis: {},
-        series: [{
-            name: '销量',
-            type: 'bar',
-            data: [5, 20, 36, 10, 10, 20]
-        }]
-    };
+        let data = await this.traceService.getDependencies();
 
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
-  }
+        chart.setOption(this.initChartOptions(data.nodes, data.edges));
+    }
+
+    //todo use viewModel
+    initChartOptions(nodes: Array<any>, edges: Array<any>): EChartOption {
+        var option = {
+            tooltip: {},
+            animationDurationUpdate: 1000,
+            animationEasingUpdate: 'quinticInOut',
+            color: ['#479ed4'],
+            series: [
+                {
+                    type: 'graph',
+                    layout: 'force',
+                    force: {
+                        repulsion: 1000,
+                        edgeLength: [50, 300]
+                    },
+                    symbolSize: 60,
+                    roam: true,
+                    focusNodeAdjacency: true,
+                    draggable: true,
+                    label: {
+                        normal: {
+                            show: true,
+                            textStyle: {
+                                fontSize: 13
+                            }
+                        },
+                        emphasis: {
+                            show: false
+                        }
+                    },
+                    edgeSymbol: ['circle', 'arrow'],
+                    edgeSymbolSize: [4, 10],
+                    edgeLabel: {
+                        normal: {
+                            show: true,
+                            textStyle: {
+                                fontSize: 13
+                            },
+                            formatter: '{c}'
+                        }
+                    },
+                    nodes: nodes,
+                    edges: edges,
+                    lineStyle: {
+                        normal: {
+                            opacity: 0.9,
+                            width: 2,
+                            curveness: 0
+                        }
+                    }
+                }
+            ]
+        };
+        return option;
+    }
 }

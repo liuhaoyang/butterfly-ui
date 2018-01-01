@@ -106,4 +106,11 @@ export class TraceService {
 
         return span;
     }
+
+    //todo use viewModel
+    //todo query params
+    //todo symbolSize
+    async getDependencies(): Promise<any> {
+        return this.http.get(this.url.getDependencies).toPromise();
+    }
 }
