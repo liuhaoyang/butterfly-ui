@@ -37,7 +37,7 @@ export class DependencyComponent implements OnInit {
                     layout: 'force',
                     force: {
                         repulsion: 1000,
-                        edgeLength: [50, 300]
+                        edgeLength: [360, 270]
                     },
                     symbolSize: 60,
                     roam: true,
