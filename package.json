@@ -1,6 +1,6 @@
 {
   "name": "butterfly-ui",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -21,7 +21,9 @@
     "@angular/platform-browser": "^5.0.0",
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/router": "^5.0.0",
+    "@types/echarts": "0.0.9",
     "core-js": "^2.4.1",
+    "echarts": "^3.8.5",
     "ng-zorro-antd": "^0.6.7",
     "ng2-linq": "^1.0.0",
     "rxjs": "^5.5.5",
