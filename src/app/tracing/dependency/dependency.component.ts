@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TraceService } from '../../services/trace.service';
+import { TimestampSearchViewModel } from '../../models/search.ViewModel';
 import * as echarts from 'echarts';
 import { EChartOption } from 'echarts';
 
@@ -10,16 +11,23 @@ import { EChartOption } from 'echarts';
 })
 export class DependencyComponent implements OnInit {
 
+    searchViewModel: TimestampSearchViewModel;
+
     constructor(private traceService: TraceService) {
+        this.searchViewModel = new TimestampSearchViewModel();
     }
 
-    async ngOnInit() {
+    ngOnInit() {
+       this.refreshData();
+    }
+
+    async refreshData() {
+
+        let data = await this.traceService.getDependencies();
 
         let divElement = <HTMLDivElement>document.getElementById('main');
 
         var chart = echarts.init(divElement);
-
-        let data = await this.traceService.getDependencies();
 
         chart.setOption(this.initChartOptions(data.nodes, data.edges));
     }
@@ -28,8 +36,8 @@ export class DependencyComponent implements OnInit {
     initChartOptions(nodes: Array<any>, edges: Array<any>): EChartOption {
         var option = {
             tooltip: {},
-            animationDurationUpdate: 1000,
-            animationEasingUpdate: 'quinticInOut',
+            // animationDurationUpdate: 1000,
+            // animationEasingUpdate: 'quinticInOut',
             color: ['#479ed4'],
             series: [
                 {
