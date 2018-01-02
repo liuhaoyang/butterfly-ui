@@ -13,7 +13,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { TracingModule } from './tracing/tracing.module';
 import { TraceService } from './services/trace.service';
 import { UrlUtils } from './services/url.utils';
-import { LinqService } from 'ng2-linq';
 import { SpanComponent } from './tracing/span/span.component'
 
 @NgModule({
@@ -36,8 +35,7 @@ import { SpanComponent } from './tracing/span/span.component'
     providers: [
         { provide: NZ_LOCALE, useValue: enUS },
         TraceService,
-        UrlUtils,
-        LinqService
+        UrlUtils
     ],
     entryComponents: [
         SpanComponent

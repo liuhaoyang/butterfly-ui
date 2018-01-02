@@ -16,11 +16,12 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.router.events.filter(event => event instanceof NavigationEnd)
-            .subscribe((event: any) => {
+        this.router.events.subscribe((event: any) => {
+            if (event instanceof NavigationEnd) {
                 this.breadcrumbs = event.urlAfterRedirects.split('/').filter(x => x != "");
                 this.subNavsQueryString(this.breadcrumbs);
-            });
+            }
+        });
     }
 
     subNavsQueryString(breadcrumbs: string[]): void {

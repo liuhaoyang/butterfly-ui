@@ -25,8 +25,7 @@
     "core-js": "^2.4.1",
     "echarts": "^3.8.5",
     "ng-zorro-antd": "^0.6.7",
-    "ng2-linq": "^1.0.0",
-    "rxjs": "^5.5.5",
+    "rxjs": "^5.5.6",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {

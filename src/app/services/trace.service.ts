@@ -1,10 +1,8 @@
-import 'rxjs/add/operator/filter';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { UrlUtils } from './url.utils';
 import { PageViewModel } from '../models/page.viewModel';
-import { TraceViewModel, DisplayServiceViewModel, SearchTraceViewModel } from '../models/trace.viewModel';
-import { LinqService } from 'ng2-linq';
+import { TraceViewModel, TraceServiceViewModel, DisplayServiceViewModel, SearchTraceViewModel } from '../models/trace.viewModel';
 import { forEach } from '@angular/router/src/utils/collection';
 import { TraceDetailViewModel, SpanViewModel } from '../models/tracedetail.viewModel';
 import { SpanDetailViewModel } from '../models/spandetail.viewModel';
@@ -13,7 +11,7 @@ import { utils } from "../app.utils";
 @Injectable()
 export class TraceService {
 
-    constructor(private http: HttpClient, private url: UrlUtils, private linq: LinqService) {
+    constructor(private http: HttpClient, private url: UrlUtils) {
     }
 
     async getTraces(search: SearchTraceViewModel, pageNumber: number = 1, pageSize: number = 10): Promise<PageViewModel<TraceViewModel>> {
@@ -44,17 +42,30 @@ export class TraceService {
             return result;
         }
 
-        let maxDuration = this.linq.Enumerable().From(result.data).Max(x => x.duration);
+        let maxDuration = this.max(result.data, x => x.duration);
 
-        result.data.forEach((item, index) => {
-            let displayServices = this.linq.Enumerable().From(item.services).GroupBy(x => x.name).Select(x => new DisplayServiceViewModel(x.Key(), x.Count())).ToArray();
+        for (let item of result.data) {   
+            let traceServiceMap = new Map<string, TraceServiceViewModel[]>();
+            for (let service of item.services) {
+                if (traceServiceMap.has(service.name)) {
+                    traceServiceMap.get(service.name).push(service);
+                }
+                else {
+                    traceServiceMap.set(service.name, [service]);
+                }
+            }
+            let displayServices = [];
+            //todo
+            traceServiceMap.forEach((v, k) => {
+                displayServices.push(new DisplayServiceViewModel(k, v.length));
+            });
             item.displayServices = displayServices;
             item.displayDuration = utils.toDisplayDuration(item.duration);
             item.durationWidth = item.duration / maxDuration * 100;
             if (item.durationWidth < 8) {
                 item.durationWidth = 8;
             }
-        });
+        }
 
         return result;
     }
@@ -100,10 +111,9 @@ export class TraceService {
         return spans;
     }
 
-    async  getSpanDetail(spanId: string): Promise<SpanDetailViewModel> {
+    async getSpanDetail(spanId: string): Promise<SpanDetailViewModel> {
         var span = await this.http.get<SpanDetailViewModel>(this.url.getSpanDetail + spanId).toPromise();
         span.displayDuration = utils.toDisplayDuration(span.duration);
-
         return span;
     }
 
@@ -112,5 +122,16 @@ export class TraceService {
     //todo symbolSize
     async getDependencies(): Promise<any> {
         return this.http.get(this.url.getDependencies).toPromise();
+    }
+
+    private max<T>(data: T[], predicate: (x: T) => number): number {
+        let max = 0;
+        for (let item of data) {
+            let itemValue = predicate(item);
+            if (itemValue > max) {
+                max = itemValue;
+            }
+        }
+        return max;
     }
 }
