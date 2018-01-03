@@ -12,24 +12,32 @@ import { EChartOption } from 'echarts';
 export class DependencyComponent implements OnInit {
 
     searchViewModel: TimestampSearchViewModel;
+    promptDisplay: string;
+    spinning: boolean;
 
     constructor(private traceService: TraceService) {
         this.searchViewModel = new TimestampSearchViewModel();
+        this.spinning = true;
+        this.promptDisplay = "hidden";
     }
 
     ngOnInit() {
-       this.refreshData();
+        this.refreshData();
     }
 
     async refreshData() {
-
+        this.promptDisplay = "hidden";
+        this.spinning = true;    
         let data = await this.traceService.getDependencies();
-
-        let divElement = <HTMLDivElement>document.getElementById('main');
-
-        var chart = echarts.init(divElement);
-
-        chart.setOption(this.initChartOptions(data.nodes, data.edges));
+        if (data.nodes.length > 0) {
+            let divElement = <HTMLDivElement>document.getElementById('main');
+            var chart = echarts.init(divElement);
+            chart.setOption(this.initChartOptions(data.nodes, data.edges));
+        }
+        else {
+            this.promptDisplay = "visible";
+            this.spinning = false;
+        }
     }
 
     //todo use viewModel
@@ -39,6 +47,7 @@ export class DependencyComponent implements OnInit {
             // animationDurationUpdate: 1000,
             // animationEasingUpdate: 'quinticInOut',
             color: ['#479ed4'],
+            backgroundColor: 'rgba(0,0,0,.05)',
             series: [
                 {
                     type: 'graph',

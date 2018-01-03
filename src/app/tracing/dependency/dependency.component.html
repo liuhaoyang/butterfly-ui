@@ -8,7 +8,8 @@
   </button>
 </div>
 <div ng-row id="main" class="graph">
-  <div style="text-align:center;display:none">
-    No data
+  <div class="prompt">
+    <span [style.visibility]="promptDisplay">No data</span>
+    <nz-spin [nzSpinning]="spinning"></nz-spin>
   </div>
 </div>
