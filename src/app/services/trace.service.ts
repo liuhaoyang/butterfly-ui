@@ -6,6 +6,7 @@ import { TraceViewModel, TraceServiceViewModel, DisplayServiceViewModel, SearchT
 import { forEach } from '@angular/router/src/utils/collection';
 import { TraceDetailViewModel, SpanViewModel } from '../models/tracedetail.viewModel';
 import { SpanDetailViewModel } from '../models/spandetail.viewModel';
+import { TimestampSearchViewModel } from '../models/search.viewModel';
 import { utils } from "../app.utils";
 
 @Injectable()
@@ -118,10 +119,20 @@ export class TraceService {
     }
 
     //todo use viewModel
-    //todo query params
     //todo symbolSize
-    async getDependencies(): Promise<any> {
-        return this.http.get(this.url.getDependencies).toPromise();
+    async getDependencies(search: TimestampSearchViewModel): Promise<any> {
+        
+        var httpParams = new HttpParams();
+
+        if (search.startTimestamp != null) {
+            httpParams = httpParams.set("startTimestamp", search.startTimestamp.toLocaleString());
+        }
+
+        if (search.finishTimestamp != null) {
+            httpParams = httpParams.set("finishTimestamp", search.finishTimestamp.toLocaleString());
+        }
+
+        return this.http.get(this.url.getDependencies, { params: httpParams }).toPromise();
     }
 
     private max<T>(data: T[], predicate: (x: T) => number): number {

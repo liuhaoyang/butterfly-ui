@@ -7,9 +7,12 @@
     <span>Analyse</span>
   </button>
 </div>
+<div nz-row class="alert" [style.display]="alertDisplay">
+  <nz-alert [nzType]="'info'">
+    <span alert-body>
+      <pre>No data</pre>
+    </span>
+  </nz-alert>
+</div>
 <div ng-row id="main" class="graph">
-  <div class="prompt">
-    <span [style.visibility]="promptDisplay">No data</span>
-    <nz-spin [nzSpinning]="spinning"></nz-spin>
-  </div>
 </div>

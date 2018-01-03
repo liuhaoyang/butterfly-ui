@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd';
 import { TraceService } from '../../services/trace.service';
-import { TimestampSearchViewModel } from '../../models/search.ViewModel';
+import { TimestampSearchViewModel } from '../../models/search.viewModel';
 import * as echarts from 'echarts';
 import { EChartOption } from 'echarts';
 
@@ -9,34 +10,35 @@ import { EChartOption } from 'echarts';
     templateUrl: './dependency.component.html',
     styleUrls: ['./dependency.component.css']
 })
-export class DependencyComponent implements OnInit {
+export class DependencyComponent implements OnInit, AfterViewInit {
 
     searchViewModel: TimestampSearchViewModel;
-    promptDisplay: string;
-    spinning: boolean;
+    alertDisplay: string;
+    chart: echarts.ECharts;
 
-    constructor(private traceService: TraceService) {
+    constructor(private traceService: TraceService, private message: NzMessageService) {
         this.searchViewModel = new TimestampSearchViewModel();
-        this.spinning = true;
-        this.promptDisplay = "hidden";
     }
 
     ngOnInit() {
+    }
+
+    ngAfterViewInit() {
+        let divElement = <HTMLDivElement>document.getElementById('main');
+        this.chart = echarts.init(divElement);
         this.refreshData();
     }
 
     async refreshData() {
-        this.promptDisplay = "hidden";
-        this.spinning = true;    
-        let data = await this.traceService.getDependencies();
-        if (data.nodes.length > 0) {
-            let divElement = <HTMLDivElement>document.getElementById('main');
-            var chart = echarts.init(divElement);
-            chart.setOption(this.initChartOptions(data.nodes, data.edges));
+        this.alertDisplay = "none";
+        let data = await this.traceService.getDependencies(this.searchViewModel);
+
+        if (data.nodes.length <= 0) {
+            this.alertDisplay = "inline";
+            this.chart.clear();
         }
         else {
-            this.promptDisplay = "visible";
-            this.spinning = false;
+            this.chart.setOption(this.initChartOptions(data.nodes, data.edges));
         }
     }
 
@@ -44,8 +46,8 @@ export class DependencyComponent implements OnInit {
     initChartOptions(nodes: Array<any>, edges: Array<any>): EChartOption {
         var option = {
             tooltip: {},
-            // animationDurationUpdate: 1000,
-            // animationEasingUpdate: 'quinticInOut',
+            animationDurationUpdate: 1000,
+            animationEasingUpdate: 'quinticInOut',
             color: ['#479ed4'],
             backgroundColor: 'rgba(0,0,0,.05)',
             series: [
