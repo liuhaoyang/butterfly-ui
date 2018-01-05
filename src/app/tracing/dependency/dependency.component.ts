@@ -14,6 +14,7 @@ export class DependencyComponent implements OnInit, AfterViewInit {
 
     searchViewModel: TimestampSearchViewModel;
     alertDisplay: string;
+    chartDisplay: string;
     chart: echarts.ECharts;
 
     constructor(private traceService: TraceService, private message: NzMessageService) {
@@ -24,20 +25,21 @@ export class DependencyComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        let divElement = <HTMLDivElement>document.getElementById('main');
+        let divElement = <HTMLDivElement>document.getElementById('chart');
         this.chart = echarts.init(divElement);
         this.refreshData();
     }
 
     async refreshData() {
-        this.alertDisplay = "none";
         let data = await this.traceService.getDependencies(this.searchViewModel);
 
         if (data.nodes.length <= 0) {
             this.alertDisplay = "inline";
-            this.chart.clear();
+            this.chartDisplay = "none";
         }
         else {
+            this.chartDisplay = "inline";
+            this.alertDisplay = "none";
             this.chart.setOption(this.initChartOptions(data.nodes, data.edges));
         }
     }
