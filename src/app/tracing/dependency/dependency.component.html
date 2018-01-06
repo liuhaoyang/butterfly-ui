@@ -1,4 +1,4 @@
-<div nz-row>
+<div nz-row style="margin-bottom: 10px">
   <nz-datepicker class="trace-search" [(ngModel)]="searchViewModel.startTimestamp" nzShowTime [nzPlaceHolder]="'select startTime'"
     [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
   <nz-datepicker class="trace-search" [(ngModel)]="searchViewModel.finishTimestamp" nzShowTime [nzPlaceHolder]="'select finishTime'"
@@ -7,13 +7,9 @@
     <span>Analyse</span>
   </button>
 </div>
-<div nz-row class="alert" [style.display]="alertDisplay">
-  <nz-alert [nzType]="'info'">
-    <span alert-body>
-      <pre>No data</pre>
-    </span>
-  </nz-alert>
+<div nz-row class="graph" [style.display]="alertDisplay" [style.height]="chartHeight">
+    <pre style="margin-top: 50px">No data</pre>
 </div>
-<div ng-row id="main" class="graph" [style.display]="chartDisplay">
-  <div id="chart"></div>
+<div ng-row id="main" [style.display]="chartDisplay" [style.height]="chartHeight">
+  <div id="chart" class="graph"></div>
 </div>

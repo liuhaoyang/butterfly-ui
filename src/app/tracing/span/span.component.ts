@@ -14,12 +14,15 @@ export class SpanComponent implements OnInit {
   spanId: string;
   data: SpanDetailViewModel;
   logs: LogFieldViewModel[] = [];
+  height:string;
 
   constructor(private traceService: TraceService, private subject: NzModalSubject) {
     this.data = new SpanDetailViewModel();
   }
 
   async ngOnInit() {
+    let height = document.body.clientHeight * 0.7;
+    this.height = height + 'px';
     this.data = await this.traceService.getSpanDetail(this.spanId);
     let logViewModels = [];
     for (let log of this.data.logs) {

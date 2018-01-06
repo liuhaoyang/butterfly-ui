@@ -15,6 +15,7 @@ export class DependencyComponent implements OnInit, AfterViewInit {
     searchViewModel: TimestampSearchViewModel;
     alertDisplay: string;
     chartDisplay: string;
+    chartHeight: string;
     chart: echarts.ECharts;
 
     constructor(private traceService: TraceService, private message: NzMessageService) {
@@ -22,6 +23,8 @@ export class DependencyComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
+        let height = document.body.clientHeight * 0.70;
+        this.chartHeight = height + 'px';
     }
 
     ngAfterViewInit() {
@@ -31,14 +34,16 @@ export class DependencyComponent implements OnInit, AfterViewInit {
     }
 
     async refreshData() {
-        let data = await this.traceService.getDependencies(this.searchViewModel);
 
+
+        this.chart.clear();
+        let data = await this.traceService.getDependencies(this.searchViewModel);
         if (data.nodes.length <= 0) {
-            this.alertDisplay = "inline";
+            this.alertDisplay = "block";
             this.chartDisplay = "none";
         }
         else {
-            this.chartDisplay = "inline";
+            this.chartDisplay = "block";
             this.alertDisplay = "none";
             this.chart.setOption(this.initChartOptions(data.nodes, data.edges));
         }
