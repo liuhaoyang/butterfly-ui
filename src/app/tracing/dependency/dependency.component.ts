@@ -19,16 +19,18 @@ export class DependencyComponent implements OnInit, AfterViewInit {
     chart: echarts.ECharts;
 
     constructor(private traceService: TraceService, private message: NzMessageService) {
+        this.searchViewModel = new TimestampSearchViewModel();
+        this.chartHeight = 0 + 'px';
     }
 
     ngOnInit() {
-        this.searchViewModel = new TimestampSearchViewModel();
-        let height = document.body.clientHeight * 0.70;
-        this.chartHeight = height + 'px';
     }
 
     ngAfterViewInit() {
+        let height = document.body.clientHeight * 0.70;
+        this.chartHeight = height + 'px';
         let divElement = <HTMLDivElement>document.getElementById('chart');
+        divElement.style.height = this.chartHeight;
         this.chart = echarts.init(divElement);
         this.refreshData();
     }
