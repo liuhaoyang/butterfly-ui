@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TraceService } from '../../services/trace.service';
-import { TraceViewModel } from '../../models/trace.viewModel'
+import { TraceViewModel, SearchTraceViewModel } from '../../models/trace.viewModel'
 import { PageViewModel } from '../../models/page.viewModel';
 
 @Component({
@@ -12,13 +12,16 @@ import { PageViewModel } from '../../models/page.viewModel';
 export class FindTracesComponent implements OnInit {
 
   loading: boolean;
-  model: PageViewModel<TraceViewModel>;
+  selectorOpen: boolean = false;
+  traceViewModel: PageViewModel<TraceViewModel>;
+  searchViewModel: SearchTraceViewModel;
+  services: string[] = [];
+  _value:string;
 
   constructor(private traceService: TraceService) {
-    //this.models = ["9245fe4a-d402-451c-b9ed-9c1a04247482", "9245fe4a-d402-451c-b9ed-9c1a04247482"];
     this.loading = true;
-    this.model = new PageViewModel<TraceViewModel>();
-    this.model.pageSize=1;
+    this.traceViewModel = new PageViewModel<TraceViewModel>();
+    this.searchViewModel = new SearchTraceViewModel();
   }
 
   ngOnInit() {
@@ -26,8 +29,17 @@ export class FindTracesComponent implements OnInit {
   }
 
   async refreshData() {
-    this.model = await this.traceService.getTraces(this.model.pageNumber,this.model.pageSize);
+    this.traceViewModel = await this.traceService.getTraces(this.searchViewModel, this.traceViewModel.pageNumber, this.traceViewModel.pageSize);
     this.loading = false;
-    console.log(this.model);
+  }
+
+  async serviceSelectorOpen() {
+    if (!this.selectorOpen) {
+      this.services = await this.traceService.getServices();
+      this.selectorOpen = true;
+    }
+    else {
+      this.selectorOpen = false;
+    }
   }
 }

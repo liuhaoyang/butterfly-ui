@@ -10,10 +10,10 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HttpClientModule } from '@angular/common/http';
-import { TracingModule }  from './tracing/tracing.module';
+import { TracingModule } from './tracing/tracing.module';
 import { TraceService } from './services/trace.service';
 import { UrlUtils } from './services/url.utils';
-import { LinqService } from 'ng2-linq';
+import { SpanComponent } from './tracing/span/span.component'
 
 @NgModule({
     declarations: [
@@ -32,11 +32,13 @@ import { LinqService } from 'ng2-linq';
         TracingModule
     ],
     bootstrap: [AppComponent],
-    providers:[
+    providers: [
         { provide: NZ_LOCALE, useValue: enUS },
         TraceService,
-        UrlUtils,
-        LinqService
+        UrlUtils
+    ],
+    entryComponents: [
+        SpanComponent
     ]
 })
 

@@ -4,7 +4,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { TracingModule }  from './tracing/tracing.module';
 
 const routes: Routes = [
-  { path: '',   redirectTo: '/dashboard/overview', pathMatch: 'full' },
+  { path: '',   redirectTo: '/tracing/find-traces', pathMatch: 'full' },
   { path: 'dashboard', loadChildren: 'app/dashboard/dashboard.module#DashboardModule'},
   { path: 'tracing', loadChildren: 'app/tracing/tracing.module#TracingModule'},
 ];

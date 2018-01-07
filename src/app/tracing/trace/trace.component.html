@@ -1,0 +1,54 @@
+<div nz-row>
+  <div nz-col [nzSpan]="12">
+    <span class="title">Duration:
+      <nz-tag>{{ detailViewModel.displayDuration }}</nz-tag>
+    </span>
+    <span class="title">Services:
+      <nz-tag>{{ detailViewModel.services }}</nz-tag>
+    </span>
+    <span class="title">Spans:
+      <nz-tag>{{ detailViewModel.spans.length }}</nz-tag>
+    </span>
+  </div>
+</div>
+<div nz-row class="traceDetail-data">
+  <nz-table #nzTable [nzSize]="'middle'" [nzLoading]="loading" [nzDataSource]="detailViewModel.spans" [nzIsPagination]="false">
+    <thead nz-thead>
+      <tr>
+        <th nz-th [nzWidth]="'20%'">
+          <span>Span</span>
+        </th>
+        <th nz-th>
+          <div ng-row class="timeline-header">
+            <div nz-col [nzSpan]="3">
+              <span style="float:left;color:rgba(0, 0, 0, 0.85);">Timeline</span>
+            </div>
+            <div nz-col [nzSpan]="3" class="timelin-timespan" *ngFor="let timeline of timelines">
+              <span class="timeline-mark">{{ timeline }}</span>
+            </div>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody nz-tbody>
+      <ng-template ngFor let-data [ngForOf]="nzTable.data">
+        <tr nz-tbody-tr *ngIf="(data.parent && data.parent.expand)||!(data.parent)">
+          <td nz-td>
+            <nz-row-indent [nzIndentSize]="data.level"></nz-row-indent>
+            <nz-row-expand-icon [(nzExpand)]="data.expand" [nzShowExpand]="data.hasChildren" (nzExpandChange)="collapse(data,false)"></nz-row-expand-icon>
+            <a (click)="showSpanDetail(data)">
+              <span class="span-service">{{ data.serviceName }}</span>
+              <span class="span-name">{{ data.operationName }}</span>
+            </a>
+          </td>
+          <td nz-td>
+            <div class="timeline-container" [style.width]="data.displayWidth + '%' " [style.margin-left]="data.displayOffset + '%' "
+              nz-tooltip="{{ data.displayDuration }}">
+              <span>{{ data.displayDuration }}</span>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </nz-table>
+</div>

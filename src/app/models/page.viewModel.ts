@@ -2,7 +2,7 @@ export class PageViewModel<T> {
 
     totalPageCount: number;
 
-    totalMemberCoun: number;
+    totalMemberCount: number;
 
     pageNumber: number = 1;
 

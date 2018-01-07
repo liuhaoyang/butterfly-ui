@@ -1,0 +1,15 @@
+<div nz-row style="margin-bottom: 10px">
+  <nz-datepicker class="trace-search" [(ngModel)]="searchViewModel.startTimestamp" nzShowTime [nzPlaceHolder]="'select startTime'"
+    [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+  <nz-datepicker class="trace-search" [(ngModel)]="searchViewModel.finishTimestamp" nzShowTime [nzPlaceHolder]="'select finishTime'"
+    [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+  <button style="margin: 5px;" nz-button [nzType]="'default'" (click)="refreshData()">
+    <span>Analyse</span>
+  </button>
+</div>
+<div nz-row class="graph" [style.display]="alertDisplay" [style.height]="chartHeight">
+    <pre style="margin-top: 50px">No data</pre>
+</div>
+<div ng-row id="main" [style.display]="chartDisplay" [style.height]="chartHeight">
+  <div id="chart" class="graph"></div>
+</div>
