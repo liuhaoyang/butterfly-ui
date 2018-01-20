@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TraceService } from '../../services/trace.service';
-import { TraceViewModel, SearchTraceViewModel } from '../../models/trace.viewModel'
+import { TraceViewModel, SearchTraceViewModel } from '../../models/trace.viewModel';
 import { PageViewModel } from '../../models/page.viewModel';
 
 @Component({
