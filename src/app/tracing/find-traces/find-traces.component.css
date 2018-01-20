@@ -1,9 +1,9 @@
-.duration {
-  background-color: #479ed4;
+.trace-duration-timeline {
+  background-color: #5caddf;
   color: #fff;
   padding-left: 10px;
-  line-height: 18px;
-  height: 20px;
+  line-height: 24px;
+  height: 26px;
   border-radius: 4px;
   font-size: 12px;
   transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
@@ -19,4 +19,29 @@
 .trace-search {
   width: 200px;
   margin: 5px;
+}
+
+.trace-limit{
+  width: 75px; 
+  margin: 5px;
+}
+
+.trace-item{
+  padding: 5px;
+  color: (0, 0, 0, 0.75);
+}
+
+.trace-duration{
+  background: rgba(0, 0, 0, .04);
+}
+
+.trace-router{
+  text-align: center;
+  line-height:26px;
+}
+
+.trace-description{
+  /* color: #2889ce; */
+  padding: 10px 5px 5px 0;
+  font-size: 13px;
 }

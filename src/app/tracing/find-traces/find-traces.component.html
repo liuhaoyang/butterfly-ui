@@ -4,67 +4,41 @@
     <nz-option *ngFor="let service of services" [nzLabel]="service" [nzValue]="service">
     </nz-option>
   </nz-select>
-  <nz-input style="width:240px; margin: 5px;" [nzType]="'text'" [nzPlaceHolder]="'http.status_code=200|http.method=GET'" [(ngModel)]="searchViewModel.tags"></nz-input>
+  <nz-input style=" width: 240px;margin: 5px;" [nzType]="'text'" [nzPlaceHolder]="'http.status_code=200|http.method=GET'" [(ngModel)]="searchViewModel.tags"></nz-input>
   <nz-datepicker class="trace-search" [(ngModel)]="searchViewModel.startTimestamp" nzShowTime [nzPlaceHolder]="'select startTime'"
     [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
   <nz-datepicker class="trace-search" [(ngModel)]="searchViewModel.finishTimestamp" nzShowTime [nzPlaceHolder]="'select finishTime'"
     [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+  <nz-select class="trace-limit" [(ngModel)]="searchViewModel.limit" [nzPlaceHolder]="'limit'" nz-tooltip>
+    <nz-option *ngFor="let limit of limits" [nzLabel]="limit" [nzValue]="limit">
+    </nz-option>
+  </nz-select>
   <button style="margin: 5px;" nz-button [nzType]="'default'" (click)="refreshData()">
     <i class="anticon anticon-search"></i>
     <span>Search</span>
   </button>
 </div>
 <div nz-row class="trace-data">
-  <nz-table #nzTable [nzSize]="'middle'" [nzLoading]="loading" [nzAjaxData]="traceViewModel.data" [nzTotal]="traceViewModel.totalMemberCount"
-    nzShowSizeChanger [(nzPageIndex)]="traceViewModel.pageNumber" [(nzPageSize)]="traceViewModel.pageSize"
-    (nzPageIndexChange)="refreshData()" (nzPageSizeChange)="refreshData()">
-    <thead nz-thead>
-      <tr>
-        <!-- <th nz-th [nzWidth]="'270px'">
-          <span>TraceId</span>
-        </th> -->
-        <th nz-th>
-          <span>Services</span>
-        </th>
-        <th nz-th [nzWidth]="'40%'">
-          <span>Duration</span>
-        </th>
-        <th nz-th>
-          <span>TraceStart</span>
-        </th>
-        <th nz-th>
-          <span>TraceFinish</span>
-        </th>
-        <th nz-th>
-        </th>
-      </tr>
-    </thead>
-    <tbody nz-tbody>
-      <tr nz-tbody-tr *ngFor="let data of nzTable.data">
-        <!-- <td nz-td>
-          <span>{{ data.traceId }}</span>
-        </td> -->
-        <td nz-td>
+  <ng-template ngFor let-data [ngForOf]="traceViewModel">
+    <div class="trace-item" nz-row>
+      <div class="trace-duration" nz-row>
+        <div nz-col [nzSpan]="23">
+          <div [routerLink]="['/tracing/trace', data.traceId]" class="trace-duration-timeline " [style.width]="data.durationWidth+ '%' ">{{ data.displayDuration }}</div>
+        </div>
+        <div class="trace-router" nz-col [nzSpan]="1">
+          <a [routerLink]="['/tracing/trace', data.traceId]">Detail</a>
+        </div>
+      </div>
+      <div class="trace-description" nz-row>
+        <div nz-col [nzSpan]="20">
           <span *ngFor=" let service of data.displayServices ">
-            <nz-tag *ngIf="service.name != searchViewModel.service ">{{ service.name }} x {{ service.count }}</nz-tag>
-            <nz-tag *ngIf="service.name == searchViewModel.service " [nzColor]=" '#479ed4' ">{{ service.name }} x {{ service.count }}</nz-tag>
+            <nz-tag>{{ service.name }} x {{ service.count }}</nz-tag>
           </span>
-        </td>
-        <td nz-td style="padding-right:2%;">
-          <div [routerLink]="['/tracing/trace', data.traceId]" class="duration " [style.width]="data.durationWidth+ '%' ">{{ data.displayDuration }}</div>
-        </td>
-        <td nz-td>
-          <span>{{ data.startTimestamp | date: 'yyyy-MM-dd HH:mm:ss.SSS'}}</span>
-        </td>
-        <td nz-td>
-          <span>{{ data.finishTimestamp | date: 'yyyy-MM-dd HH:mm:ss.SSS'}}</span>
-        </td>
-        <td nz-td>
-          <span>
-            <a [routerLink]="['/tracing/trace', data.traceId]">Detail</a>
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </nz-table>
+        </div>
+        <div class="trace-router" nz-col [nzSpan]="4">
+          {{ data.startTimestamp | date: 'yyyy/MM/dd HH:mm:ss.SSS'}}
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>

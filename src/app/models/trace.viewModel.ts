@@ -43,7 +43,10 @@ export class SearchTraceViewModel {
 
     tags: string;
 
+    limit: number;
+
     constructor() {
+        this.limit = 10;
         this.finishTimestamp = new Date();
         this.startTimestamp = new Date();
         this.startTimestamp.setMinutes(this.startTimestamp.getMinutes() - 60);

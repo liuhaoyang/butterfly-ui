@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UrlUtils } from './url.utils';
 import { PageViewModel } from '../models/page.viewModel';
@@ -7,7 +7,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { TraceDetailViewModel, SpanViewModel } from '../models/tracedetail.viewModel';
 import { SpanDetailViewModel } from '../models/spandetail.viewModel';
 import { TimestampSearchViewModel } from '../models/search.viewModel';
-import { utils } from "../app.utils";
+import { utils } from '../app.utils';
 
 @Injectable()
 export class TraceService {
@@ -15,39 +15,38 @@ export class TraceService {
     constructor(private http: HttpClient, private url: UrlUtils) {
     }
 
-    async getTraces(search: SearchTraceViewModel, pageNumber: number = 1, pageSize: number = 10): Promise<PageViewModel<TraceViewModel>> {
+    async getTraces(search: SearchTraceViewModel): Promise<TraceViewModel[]> {
 
-        var httpParams = new HttpParams()
-            .set("pageNumber", pageNumber.toString())
-            .set("pageSize", pageSize.toString());
+        let httpParams = new HttpParams()
+            .set('limit', search.limit.toString());
 
         if (search.service != null) {
-            httpParams = httpParams.set("service", search.service);
+            httpParams = httpParams.set('service', search.service);
         }
 
         if (search.tags != null) {
-            httpParams = httpParams.set("tags", search.tags);
+            httpParams = httpParams.set('tags', search.tags);
         }
 
         if (search.startTimestamp != null) {
-            httpParams = httpParams.set("startTimestamp", search.startTimestamp.toLocaleString());
+            httpParams = httpParams.set('startTimestamp', search.startTimestamp.toLocaleString());
         }
 
         if (search.finishTimestamp != null) {
-            httpParams = httpParams.set("finishTimestamp", search.finishTimestamp.toLocaleString());
+            httpParams = httpParams.set('finishTimestamp', search.finishTimestamp.toLocaleString());
         }
 
-        let result = await this.http.get<PageViewModel<TraceViewModel>>(this.url.getTrace, { params: httpParams }).toPromise();
+        const result = await this.http.get<TraceViewModel[]>(this.url.getTrace, { params: httpParams }).toPromise();
 
-        if (result.data.length == 0) {
+        if (result.length === 0) {
             return result;
         }
 
-        let maxDuration = this.max(result.data, x => x.duration);
+        const maxDuration = this.max(result, x => x.duration);
 
-        for (let item of result.data) {   
-            let traceServiceMap = new Map<string, TraceServiceViewModel[]>();
-            for (let service of item.services) {
+        for (const item of result) {
+            const traceServiceMap = new Map<string, TraceServiceViewModel[]>();
+            for (const service of item.services) {
                 if (traceServiceMap.has(service.name)) {
                     traceServiceMap.get(service.name).push(service);
                 }
@@ -55,16 +54,16 @@ export class TraceService {
                     traceServiceMap.set(service.name, [service]);
                 }
             }
-            let displayServices = [];
-            //todo
+            const displayServices = [];
+            // todo
             traceServiceMap.forEach((v, k) => {
                 displayServices.push(new DisplayServiceViewModel(k, v.length));
             });
             item.displayServices = displayServices;
             item.displayDuration = utils.toDisplayDuration(item.duration);
             item.durationWidth = item.duration / maxDuration * 100;
-            if (item.durationWidth < 8) {
-                item.durationWidth = 8;
+            if (item.durationWidth < 4) {
+                item.durationWidth = 4;
             }
         }
 
@@ -118,10 +117,9 @@ export class TraceService {
         return span;
     }
 
-    //todo use viewModel
-    //todo symbolSize
+    // todo use viewModel
+    // todo symbolSize
     async getDependencies(search: TimestampSearchViewModel): Promise<any> {
-        
         var httpParams = new HttpParams();
 
         if (search.startTimestamp != null) {

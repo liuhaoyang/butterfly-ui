@@ -12,15 +12,14 @@ import { PageViewModel } from '../../models/page.viewModel';
 export class FindTracesComponent implements OnInit {
 
   loading: boolean;
-  selectorOpen: boolean = false;
-  traceViewModel: PageViewModel<TraceViewModel>;
+  selectorOpen = false;
+  traceViewModel: TraceViewModel[] = [];
   searchViewModel: SearchTraceViewModel;
   services: string[] = [];
-  _value:string;
+  limits: number[] = [10, 20, 50, 100];
+
 
   constructor(private traceService: TraceService) {
-    this.loading = true;
-    this.traceViewModel = new PageViewModel<TraceViewModel>();
     this.searchViewModel = new SearchTraceViewModel();
   }
 
@@ -29,16 +28,17 @@ export class FindTracesComponent implements OnInit {
   }
 
   async refreshData() {
-    this.traceViewModel = await this.traceService.getTraces(this.searchViewModel, this.traceViewModel.pageNumber, this.traceViewModel.pageSize);
+    this.loading = true;
+    this.traceViewModel = await this.traceService.getTraces(this.searchViewModel);
+    this.services = await this.traceService.getServices();
+    console.log(this.traceViewModel);
     this.loading = false;
   }
 
   async serviceSelectorOpen() {
     if (!this.selectorOpen) {
-      this.services = await this.traceService.getServices();
       this.selectorOpen = true;
-    }
-    else {
+    }else {
       this.selectorOpen = false;
     }
   }
