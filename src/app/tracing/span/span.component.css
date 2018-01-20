@@ -16,16 +16,16 @@
 }
 
 ::-webkit-scrollbar {
-  width: 0px;     
+  width: 5px;     
   height: 1px;
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-  background:  rgba(206, 199, 199, 0.05)
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+  background:  rgba(206, 199, 199, 0.2)
 }
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
   border-radius: 10px;
-  background: rgb(238, 237, 237);
+  background: rgb(238, 237, 237,0.5);
 }

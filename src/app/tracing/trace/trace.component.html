@@ -39,12 +39,14 @@
             <a (click)="showSpanDetail(data)">
               <span class="span-service">{{ data.serviceName }}</span>
               <span class="span-name">{{ data.operationName }}</span>
+              <span class="span-name">({{ data.displayDuration }})</span>
             </a>
           </td>
           <td nz-td>
-            <div class="timeline-container" [style.width]="data.displayWidth + '%' " [style.margin-left]="data.displayOffset + '%' "
-              nz-tooltip="{{ data.displayDuration }}">
-              <span>{{ data.displayDuration }}</span>
+            <div class="timeline-container">
+              <div class="timeline-duration" [style.width]="data.displayWidth + '%' " [style.margin-left]="data.displayOffset + '%' "
+                nz-tooltip="{{ data.serviceName }} {{ data.operationName }} {{ data.displayDuration }}">
+              </div>
             </div>
           </td>
         </tr>

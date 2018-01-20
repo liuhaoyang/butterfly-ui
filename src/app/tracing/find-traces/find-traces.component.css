@@ -17,12 +17,12 @@
 }
 
 .trace-search {
-  width: 200px;
-  margin: 5px;
+  width: 160px;
+  margin: 5px 2px;
 }
 
 .trace-limit{
-  width: 75px; 
+  width: 50px; 
   margin: 5px;
 }
 
@@ -41,7 +41,6 @@
 }
 
 .trace-description{
-  /* color: #2889ce; */
   padding: 10px 5px 5px 0;
   font-size: 13px;
 }

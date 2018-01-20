@@ -1,44 +1,51 @@
 <div nz-row>
-  <nz-select class="trace-search" [(ngModel)]="searchViewModel.service" [nzPlaceHolder]="'select service'" (nzOpenChange)="serviceSelectorOpen()"
+  <span>Service</span>
+  <nz-select class="trace-search" [(ngModel)]="searchViewModel.service" [nzPlaceHolder]="'select service'"
     nzShowSearch nzAllowClear>
     <nz-option *ngFor="let service of services" [nzLabel]="service" [nzValue]="service">
     </nz-option>
   </nz-select>
+  <span>Tags</span>
   <nz-input style=" width: 240px;margin: 5px;" [nzType]="'text'" [nzPlaceHolder]="'http.status_code=200|http.method=GET'" [(ngModel)]="searchViewModel.tags"></nz-input>
+  <span>Start</span>
   <nz-datepicker class="trace-search" [(ngModel)]="searchViewModel.startTimestamp" nzShowTime [nzPlaceHolder]="'select startTime'"
     [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+  <span>Finish</span>
   <nz-datepicker class="trace-search" [(ngModel)]="searchViewModel.finishTimestamp" nzShowTime [nzPlaceHolder]="'select finishTime'"
     [nzFormat]="'YYYY-MM-DD HH:mm:ss'"></nz-datepicker>
+  <span>Limit</span>
   <nz-select class="trace-limit" [(ngModel)]="searchViewModel.limit" [nzPlaceHolder]="'limit'" nz-tooltip>
     <nz-option *ngFor="let limit of limits" [nzLabel]="limit" [nzValue]="limit">
     </nz-option>
   </nz-select>
-  <button style="margin: 5px;" nz-button [nzType]="'default'" (click)="refreshData()">
+  <button nz-button [nzType]="'default'" (click)="refreshData()">
     <i class="anticon anticon-search"></i>
     <span>Search</span>
   </button>
 </div>
-<div nz-row class="trace-data">
-  <ng-template ngFor let-data [ngForOf]="traceViewModel">
-    <div class="trace-item" nz-row>
-      <div class="trace-duration" nz-row>
-        <div nz-col [nzSpan]="23">
-          <div [routerLink]="['/tracing/trace', data.traceId]" class="trace-duration-timeline " [style.width]="data.durationWidth+ '%' ">{{ data.displayDuration }}</div>
+<nz-spin [nzSpinning]="loading">
+  <div nz-row class="trace-data">
+    <ng-template ngFor let-data [ngForOf]="traceViewModel">
+      <div class="trace-item" nz-row>
+        <div class="trace-duration" nz-row>
+          <div nz-col [nzSpan]="23">
+            <div [routerLink]="['/tracing/trace', data.traceId]" class="trace-duration-timeline " [style.width]="data.durationWidth+ '%' ">{{ data.displayDuration }}</div>
+          </div>
+          <div class="trace-router" nz-col [nzSpan]="1">
+            <a [routerLink]="['/tracing/trace', data.traceId]">Detail</a>
+          </div>
         </div>
-        <div class="trace-router" nz-col [nzSpan]="1">
-          <a [routerLink]="['/tracing/trace', data.traceId]">Detail</a>
+        <div class="trace-description" nz-row>
+          <div nz-col [nzSpan]="20">
+            <span *ngFor=" let service of data.displayServices ">
+              <nz-tag>{{ service.name }} x {{ service.count }}</nz-tag>
+            </span>
+          </div>
+          <div class="trace-router" nz-col [nzSpan]="4">
+            {{ data.startTimestamp | date: 'yyyy/MM/dd HH:mm:ss.SSS'}}
+          </div>
         </div>
       </div>
-      <div class="trace-description" nz-row>
-        <div nz-col [nzSpan]="20">
-          <span *ngFor=" let service of data.displayServices ">
-            <nz-tag>{{ service.name }} x {{ service.count }}</nz-tag>
-          </span>
-        </div>
-        <div class="trace-router" nz-col [nzSpan]="4">
-          {{ data.startTimestamp | date: 'yyyy/MM/dd HH:mm:ss.SSS'}}
-        </div>
-      </div>
-    </div>
-  </ng-template>
-</div>
+    </ng-template>
+  </div>
+</nz-spin>
