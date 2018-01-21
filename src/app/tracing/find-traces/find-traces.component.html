@@ -1,7 +1,7 @@
 <div nz-row>
   <span>Service</span>
-  <nz-select class="trace-search" [(ngModel)]="searchViewModel.service" [nzPlaceHolder]="'select service'"
-    nzShowSearch nzAllowClear>
+  <nz-select class="trace-search" [(ngModel)]="searchViewModel.service" [nzPlaceHolder]="'select service'" (nzOpenChange)="serviceSelectorOpen()"
+  nzShowSearch nzAllowClear>
     <nz-option *ngFor="let service of services" [nzLabel]="service" [nzValue]="service">
     </nz-option>
   </nz-select>

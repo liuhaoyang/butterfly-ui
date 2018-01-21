@@ -12,6 +12,7 @@ import { PageViewModel } from '../../models/page.viewModel';
 export class FindTracesComponent implements OnInit {
 
   loading: boolean;
+  selectorOpen = false;
   traceViewModel: TraceViewModel[] = [];
   searchViewModel: SearchTraceViewModel;
   services: string[] = [];
@@ -23,12 +24,20 @@ export class FindTracesComponent implements OnInit {
 
   async ngOnInit() {
     this.refreshData();
-    this.services = await this.traceService.getServices();
   }
 
   async refreshData() {
     this.loading = true;
     this.traceViewModel = await this.traceService.getTraces(this.searchViewModel);
     this.loading = false;
+  }
+
+    async serviceSelectorOpen() {
+    if (!this.selectorOpen) {
+      this.selectorOpen = true;
+      this.services = await this.traceService.getServices();
+    }else {
+      this.selectorOpen = false;
+    }
   }
 }
