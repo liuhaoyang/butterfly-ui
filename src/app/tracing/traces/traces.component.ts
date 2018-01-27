@@ -5,18 +5,18 @@ import { PageViewModel } from '../../models/page.viewModel';
 
 @Component({
   selector: 'app-find-traces',
-  templateUrl: './find-traces.component.html',
-  styleUrls: ['./find-traces.component.css']
+  templateUrl: './traces.component.html',
+  styleUrls: ['./traces.component.css']
 })
 
-export class FindTracesComponent implements OnInit {
+export class TracesComponent implements OnInit {
 
   loading: boolean;
   selectorOpen = false;
   traceViewModel: TraceViewModel[] = [];
   searchViewModel: SearchTraceViewModel;
   services: string[] = [];
-  limits: number[] = [10, 20, 50, 100];
+  limits: number[] = [10, 20, 50, 100, 200];
 
   constructor(private traceService: TraceService) {
     this.searchViewModel = new SearchTraceViewModel();

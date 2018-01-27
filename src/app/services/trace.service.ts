@@ -30,12 +30,10 @@ export class TraceService {
 
         if (search.startTimestamp != null) {
             httpParams = httpParams.set('startTimestamp', search.startTimestamp.valueOf().toString());
-            console.log(search.startTimestamp.toString());
         }
 
         if (search.finishTimestamp != null) {
             httpParams = httpParams.set('finishTimestamp', search.finishTimestamp.valueOf().toString());
-            console.log(search.finishTimestamp.toString());
         }
 
         const result = await this.http.get<TraceViewModel[]>(this.url.getTrace, { params: httpParams }).toPromise();

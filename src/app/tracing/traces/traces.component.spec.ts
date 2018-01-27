@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FindTracesComponent } from './find-traces.component';
+import { TracesComponent } from './traces.component';
 
 describe('FindTracesComponent', () => {
-  let component: FindTracesComponent;
-  let fixture: ComponentFixture<FindTracesComponent>;
+  let component: TracesComponent;
+  let fixture: ComponentFixture<TracesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FindTracesComponent ]
+      declarations: [ TracesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FindTracesComponent);
+    fixture = TestBed.createComponent(TracesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

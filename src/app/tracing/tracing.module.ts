@@ -6,14 +6,14 @@ import { HttpModule } from '@angular/http';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { RouterModule } from '@angular/router';
 import { TracingRoutingModule } from './tracing-routing.module';
-import { FindTracesComponent } from './find-traces/find-traces.component';
+import { TracesComponent } from './traces/traces.component';
 import { TraceComponent } from './trace/trace.component';
 import { SpanComponent } from './span/span.component';
 import { DependencyComponent } from './dependency/dependency.component';
 
 @NgModule({
     declarations: [
-        FindTracesComponent,
+        TracesComponent,
         TraceComponent,
         SpanComponent,
         DependencyComponent
