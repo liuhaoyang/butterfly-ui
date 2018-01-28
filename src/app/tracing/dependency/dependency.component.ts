@@ -15,6 +15,7 @@ export class DependencyComponent implements OnInit, AfterViewInit {
     chartHeight: string;
     nodeSet: vis.DataSet;
     edgeSet: vis.DataSet;
+    loading: boolean;
 
     constructor(private traceService: TraceService, private message: NzMessageService) {
         this.searchViewModel = new TimestampSearchViewModel();
@@ -37,9 +38,11 @@ export class DependencyComponent implements OnInit, AfterViewInit {
     }
 
     async refreshData() {
-         const data = await this.traceService.getDependencies(this.searchViewModel);
-         this.bindNode(data.nodes);
-         this.bindEdges(data.edges);
+        this.loading = true;
+        const data = await this.traceService.getDependencies(this.searchViewModel);
+        this.bindNode(data.nodes);
+        this.bindEdges(data.edges);
+        this.loading = false;
     }
 
     bindNode(nodeData: Array<any>) {
@@ -47,9 +50,9 @@ export class DependencyComponent implements OnInit, AfterViewInit {
         const nodes = new Array();
         nodeData.forEach(item => {
             nodes.push({ id: item.name, label: item.name, title: item.name + ' ' + item.value });
-         });
-         nodeSet.clear();
-         nodeSet.add(nodes);
+        });
+        nodeSet.clear();
+        nodeSet.add(nodes);
     }
 
     bindEdges(edgeData: Array<any>) {
@@ -57,9 +60,9 @@ export class DependencyComponent implements OnInit, AfterViewInit {
         const edges = new Array();
         edgeData.forEach(item => {
             edges.push({ from: item.source, to: item.target, title: item.source + '->' + item.target + ' ' + item.value });
-         });
-         edgeSet.clear();
-         edgeSet.add(edges);
+        });
+        edgeSet.clear();
+        edgeSet.add(edges);
     }
 
     initOptions() {
@@ -94,7 +97,7 @@ export class DependencyComponent implements OnInit, AfterViewInit {
                 }
             },
             interaction: {
-                 hover: true
+                hover: true
             }
         };
         return options;

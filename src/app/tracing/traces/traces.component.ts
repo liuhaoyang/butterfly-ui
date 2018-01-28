@@ -16,7 +16,7 @@ export class TracesComponent implements OnInit {
   traceViewModel: TraceViewModel[] = [];
   searchViewModel: SearchTraceViewModel;
   services: string[] = [];
-  limits: number[] = [10, 20, 50, 100];
+  limits: number[] = [10, 20, 50];
 
   constructor(private traceService: TraceService) {
     this.searchViewModel = new SearchTraceViewModel();
