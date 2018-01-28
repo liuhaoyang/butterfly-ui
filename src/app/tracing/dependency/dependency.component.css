@@ -11,3 +11,7 @@
   width: 200px;
   margin-right: 10px;
 }
+
+.vis-item {
+   z-index: 1; 
+}
