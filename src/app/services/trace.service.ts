@@ -120,14 +120,14 @@ export class TraceService {
     // todo use viewModel
     // todo symbolSize
     async getDependencies(search: TimestampSearchViewModel): Promise<any> {
-        var httpParams = new HttpParams();
+        let httpParams = new HttpParams();
 
         if (search.startTimestamp != null) {
-            httpParams = httpParams.set("startTimestamp", search.startTimestamp.toLocaleString());
+            httpParams = httpParams.set('startTimestamp', search.startTimestamp.valueOf().toString());
         }
 
         if (search.finishTimestamp != null) {
-            httpParams = httpParams.set("finishTimestamp", search.finishTimestamp.toLocaleString());
+            httpParams = httpParams.set('finishTimestamp', search.finishTimestamp.valueOf().toString());
         }
 
         return this.http.get(this.url.getDependencies, { params: httpParams }).toPromise();

@@ -7,9 +7,8 @@
     <span>Analyse</span>
   </button>
 </div>
-<div nz-row class="graph" [style.display]="alertDisplay" [style.height]="chartHeight">
-    <pre style="margin-top: 50px">No data</pre>
-</div>
-<div ng-row id="main" [style.display]="chartDisplay" [style.height]="chartHeight">
-  <div id="chart" class="graph"></div>
-</div>
+<nz-spin [nzSpinning]="loading">
+  <div id="chart" ng-row class="graph" [style.height]="chartHeight"></div>
+</nz-spin>
+
+  

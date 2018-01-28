@@ -2,8 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TraceService } from '../../services/trace.service';
 import { TimestampSearchViewModel } from '../../models/search.viewModel';
-import * as echarts from 'echarts';
-import { EChartOption } from 'echarts';
+import * as vis from 'vis';
 
 @Component({
     selector: 'app-dependency',
@@ -13,10 +12,10 @@ import { EChartOption } from 'echarts';
 export class DependencyComponent implements OnInit, AfterViewInit {
 
     searchViewModel: TimestampSearchViewModel;
-    alertDisplay: string;
-    chartDisplay: string;
     chartHeight: string;
-    chart: echarts.ECharts;
+    nodeSet: vis.DataSet;
+    edgeSet: vis.DataSet;
+    loading: boolean;
 
     constructor(private traceService: TraceService, private message: NzMessageService) {
         this.searchViewModel = new TimestampSearchViewModel();
@@ -27,82 +26,80 @@ export class DependencyComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        let height = document.body.clientHeight * 0.70;
+        const height = document.body.clientHeight * 0.7;
         this.chartHeight = height + 'px';
-        let divElement = <HTMLDivElement>document.getElementById('chart');
+        const divElement = <HTMLDivElement>document.getElementById('chart');
         divElement.style.height = this.chartHeight;
-        this.chart = echarts.init(divElement);
+        this.nodeSet = new vis.DataSet();
+        this.edgeSet = new vis.DataSet();
+        const data = { nodes: this.nodeSet, edges: this.edgeSet };
+        const network = new vis.Network(divElement, data, this.initOptions());
         this.refreshData();
     }
 
     async refreshData() {
-        this.chart.clear();
-        let data = await this.traceService.getDependencies(this.searchViewModel);
-        if (data.nodes.length <= 0) {
-            this.alertDisplay = "block";
-            this.chartDisplay = "none";
-        }
-        else {
-            this.chartDisplay = "block";
-            this.alertDisplay = "none";
-            this.chart.setOption(this.initChartOptions(data.nodes, data.edges));
-        }
+        this.loading = true;
+        const data = await this.traceService.getDependencies(this.searchViewModel);
+        this.bindNode(data.nodes);
+        this.bindEdges(data.edges);
+        this.loading = false;
     }
 
-    //todo use viewModel
-    initChartOptions(nodes: Array<any>, edges: Array<any>): EChartOption {
-        var option = {
-            tooltip: {},
-            animationDurationUpdate: 1000,
-            animationEasingUpdate: 'quinticInOut',
-            color: ['#479ed4'],
-            backgroundColor: 'rgba(0,0,0,.05)',
-            series: [
-                {
-                    type: 'graph',
-                    layout: 'force',
-                    force: {
-                        repulsion: 1000,
-                        edgeLength: [360, 270]
-                    },
-                    symbolSize: 60,
-                    roam: true,
-                    focusNodeAdjacency: true,
-                    draggable: true,
-                    label: {
-                        normal: {
-                            show: true,
-                            textStyle: {
-                                fontSize: 13
-                            }
-                        },
-                        emphasis: {
-                            show: false
-                        }
-                    },
-                    edgeSymbol: ['circle', 'arrow'],
-                    edgeSymbolSize: [4, 10],
-                    edgeLabel: {
-                        normal: {
-                            show: true,
-                            textStyle: {
-                                fontSize: 13
-                            },
-                            formatter: '{c}'
-                        }
-                    },
-                    nodes: nodes,
-                    edges: edges,
-                    lineStyle: {
-                        normal: {
-                            opacity: 0.9,
-                            width: 2,
-                            curveness: 0
-                        }
+    bindNode(nodeData: Array<any>) {
+        const nodeSet = this.nodeSet;
+        const nodes = new Array();
+        nodeData.forEach(item => {
+            nodes.push({ id: item.name, label: item.name, title: item.name + ' ' + item.value });
+        });
+        nodeSet.clear();
+        nodeSet.add(nodes);
+    }
+
+    bindEdges(edgeData: Array<any>) {
+        const edgeSet = this.edgeSet;
+        const edges = new Array();
+        edgeData.forEach(item => {
+            edges.push({ from: item.source, to: item.target, title: item.source + '->' + item.target + ' ' + item.value });
+        });
+        edgeSet.clear();
+        edgeSet.add(edges);
+    }
+
+    initOptions() {
+        const options = {
+            nodes: {
+                shape: 'dot',
+                size: 18,
+                font: {
+                    size: 13
+                },
+                shadow: true,
+                color: {
+                    background: '#97C2FC'
+                }
+            },
+            edges: {
+                width: 1,
+                shadow: true,
+                arrows: {
+                    to: {
+                        enabled: true,
+                        scaleFactor: 0.5
                     }
                 }
-            ]
+            },
+            layout: {
+                randomSeed: 1,
+                hierarchical: {
+                    direction: 'LR',
+                    levelSeparation: 160,
+                    sortMethod: 'directed'
+                }
+            },
+            interaction: {
+                hover: true
+            }
         };
-        return option;
+        return options;
     }
 }

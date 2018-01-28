@@ -16,7 +16,7 @@ export class TracesComponent implements OnInit {
   traceViewModel: TraceViewModel[] = [];
   searchViewModel: SearchTraceViewModel;
   services: string[] = [];
-  limits: number[] = [10, 20, 50, 100, 200];
+  limits: number[] = [10, 20, 50];
 
   constructor(private traceService: TraceService) {
     this.searchViewModel = new SearchTraceViewModel();
@@ -32,11 +32,11 @@ export class TracesComponent implements OnInit {
     this.loading = false;
   }
 
-    async serviceSelectorOpen() {
+  async serviceSelectorOpen() {
     if (!this.selectorOpen) {
       this.selectorOpen = true;
       this.services = await this.traceService.getServices();
-    }else {
+    } else {
       this.selectorOpen = false;
     }
   }
