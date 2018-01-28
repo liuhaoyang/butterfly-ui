@@ -32,11 +32,11 @@ export class TracesComponent implements OnInit {
     this.loading = false;
   }
 
-    async serviceSelectorOpen() {
+  async serviceSelectorOpen() {
     if (!this.selectorOpen) {
       this.selectorOpen = true;
       this.services = await this.traceService.getServices();
-    }else {
+    } else {
       this.selectorOpen = false;
     }
   }
