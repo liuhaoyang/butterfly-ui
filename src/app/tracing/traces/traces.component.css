@@ -13,7 +13,7 @@
 }
 
 .trace-data {
-  margin-top: 20px;
+  margin-top: -10px;
 }
 
 .trace-search {
@@ -26,7 +26,7 @@
   margin: 5px;
 }
 
-.trace-item{
+.trace-item{ 
   padding: 5px;
   color: (0, 0, 0, 0.75);
 }
@@ -43,4 +43,9 @@
 .trace-description{
   padding: 10px 5px 5px 0;
   font-size: 13px;
+}
+
+.trace-chart{
+  margin-top: 30px;
+  height: 300px;
 }

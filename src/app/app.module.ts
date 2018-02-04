@@ -13,7 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TracingModule } from './tracing/tracing.module';
 import { TraceService } from './services/trace.service';
 import { UrlUtils } from './services/url.utils';
-import { SpanComponent } from './tracing/span/span.component'
+import { SpanComponent } from './tracing/span/span.component';
 
 @NgModule({
     declarations: [

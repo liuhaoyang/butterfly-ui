@@ -9,6 +9,7 @@ export class UrlUtils {
     getTraceDetail: string;
     getSpanDetail: string;
     getDependencies: string;
+    getTraceHistogram: string;
 
     constructor() {
         this.getTrace = environment.collectorapi + "trace";
@@ -16,6 +17,7 @@ export class UrlUtils {
         this.getTraceDetail = environment.collectorapi + "tracedetail/";
         this.getSpanDetail = environment.collectorapi + "span/";
         this.getDependencies = environment.collectorapi + "dependency";
+        this.getTraceHistogram = environment.collectorapi + 'trace/histogram';
     }
 
 }

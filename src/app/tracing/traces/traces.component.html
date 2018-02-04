@@ -1,7 +1,7 @@
 <div nz-row>
   <span>Service</span>
   <nz-select class="trace-search" [(ngModel)]="searchViewModel.service" [nzPlaceHolder]="'select service'" (nzOpenChange)="serviceSelectorOpen()"
-  nzShowSearch nzAllowClear>
+    nzShowSearch nzAllowClear>
     <nz-option *ngFor="let service of services" [nzLabel]="service" [nzValue]="service">
     </nz-option>
   </nz-select>
@@ -24,6 +24,10 @@
   </button>
 </div>
 <nz-spin [nzSpinning]="loading">
+  <div nz-row class="trace-chart">
+    <div id="chart">
+    </div>
+  </div>
   <div nz-row class="trace-data">
     <ng-template ngFor let-data [ngForOf]="traceViewModel">
       <div class="trace-item" nz-row>

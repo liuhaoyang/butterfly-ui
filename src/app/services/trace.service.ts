@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { UrlUtils } from './url.utils';
 import { PageViewModel } from '../models/page.viewModel';
 import { TraceViewModel, TraceServiceViewModel, DisplayServiceViewModel, SearchTraceViewModel } from '../models/trace.viewModel';
+import { TraceHistogramViewModel } from '../models/trace.viewModel';
 import { forEach } from '@angular/router/src/utils/collection';
 import { TraceDetailViewModel, SpanViewModel } from '../models/tracedetail.viewModel';
 import { SpanDetailViewModel } from '../models/spandetail.viewModel';
@@ -132,6 +133,32 @@ export class TraceService {
 
         return this.http.get(this.url.getDependencies, { params: httpParams }).toPromise();
     }
+
+    async getTraceHistogram(search: SearchTraceViewModel): Promise<TraceHistogramViewModel[]> {
+
+        let httpParams = new HttpParams()
+            .set('limit', search.limit.toString());
+
+        if (search.service != null) {
+            httpParams = httpParams.set('service', search.service);
+        }
+
+        if (search.tags != null) {
+            httpParams = httpParams.set('tags', search.tags);
+        }
+
+        if (search.startTimestamp != null) {
+            httpParams = httpParams.set('startTimestamp', search.startTimestamp.valueOf().toString());
+        }
+
+        if (search.finishTimestamp != null) {
+            httpParams = httpParams.set('finishTimestamp', search.finishTimestamp.valueOf().toString());
+        }
+
+        const result = await this.http.get<TraceHistogramViewModel[]>(this.url.getTraceHistogram, { params: httpParams }).toPromise();
+        return result;
+    }
+
 
     private max<T>(data: T[], predicate: (x: T) => number): number {
         let max = 0;
