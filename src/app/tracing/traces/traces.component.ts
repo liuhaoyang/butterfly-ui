@@ -40,24 +40,35 @@ export class TracesComponent implements OnInit {
         mask: 'YYYY-MM-DD HH:mm'
       },
       count: {
-      }});
-      this.chart.axis('count', {
-        label: {
-          autoRotate: true,
-          formatter: val => {
-            if (val < 1000) {
-              return val;
-            }
-            return (val / 1000).toFixed(1) + 'k';
-          }
-        },
-        line: {
+      }
+    });
+    this.chart.axis('time', {
+      grid: {
+        type: 'time',
+        lineStyle: {
+          stroke: '#d9d9d9',
           lineWidth: 1,
-          stroke: '#c5c2c2',
+          lineDash: [4, 4]
         }
-      });
-      this.chart.area().position('time*count');
-      this.chart.line().position('time*count').size(1);
+      }
+    });
+    this.chart.axis('count', {
+      label: {
+        autoRotate: true,
+        formatter: val => {
+          if (val < 1000) {
+            return val;
+          }
+          return (val / 1000).toFixed(1) + 'k';
+        }
+      },
+      line: {
+        lineWidth: 1,
+        stroke: '#c5c2c2',
+      }
+    });
+    this.chart.area().position('time*count');
+    this.chart.line().position('time*count').size(1);
     this.chart.render();
   }
 
@@ -65,8 +76,13 @@ export class TracesComponent implements OnInit {
     this.loading = true;
     this.traceViewModel = await this.traceService.getTraces(this.searchViewModel);
     this.data = await this.traceService.getTraceHistogram(this.searchViewModel);
-    this.chart.changeData(this.data);
-    console.log(this.data);
+    if (this.data.length === 0) {
+      this.chart.changeVisible(false);
+    } else {
+      this.chart.changeVisible(true);
+      this.chart.changeData(this.data);
+    }
+
     this.loading = false;
   }
 
