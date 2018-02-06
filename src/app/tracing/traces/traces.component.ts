@@ -36,7 +36,6 @@ export class TracesComponent implements OnInit {
     this.chart.scale({
       time: {
         type: 'time',
-        range: [0.01 , 0.99],
         tickCount: 10,
         mask: 'YYYY-MM-DD HH:mm'
       },
@@ -54,13 +53,7 @@ export class TracesComponent implements OnInit {
         },
         line: {
           lineWidth: 1,
-          stroke: 'gray',
-        }
-      });
-      this.chart.axis('time', {
-        line: {
-          lineWidth: 1,
-          stroke: 'gray',
+          stroke: '#c5c2c2',
         }
       });
       this.chart.area().position('time*count');
