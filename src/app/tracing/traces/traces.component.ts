@@ -26,50 +26,8 @@ export class TracesComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.chart = this.initCharts();
     this.refreshData();
-    this.chart = new G2.Chart({
-      container: 'chart', // 指定图表容器 ID
-      forceFit: true,
-      height: 300
-    });
-    this.chart.source(this.data);
-    this.chart.scale({
-      time: {
-        type: 'time',
-        tickCount: 10,
-        mask: 'YYYY-MM-DD HH:mm'
-      },
-      count: {
-      }
-    });
-    this.chart.axis('time', {
-      grid: {
-        type: 'time',
-        lineStyle: {
-          stroke: '#d9d9d9',
-          lineWidth: 1,
-          lineDash: [4, 4]
-        }
-      }
-    });
-    this.chart.axis('count', {
-      label: {
-        autoRotate: true,
-        formatter: val => {
-          if (val < 1000) {
-            return val;
-          }
-          return (val / 1000).toFixed(1) + 'k';
-        }
-      },
-      line: {
-        lineWidth: 1,
-        stroke: '#c5c2c2',
-      }
-    });
-    this.chart.area().position('time*count');
-    this.chart.line().position('time*count').size(1);
-    this.chart.render();
   }
 
   async refreshData() {
@@ -93,5 +51,51 @@ export class TracesComponent implements OnInit {
     } else {
       this.selectorOpen = false;
     }
+  }
+
+  initCharts(): any {
+    const chart = new G2.Chart({
+      container: 'chart',
+      forceFit: true,
+      height: 300
+    });
+    chart.scale({
+      time: {
+        type: 'time',
+        mask: 'YYYY-MM-DD HH:mm'
+      },
+      count: {
+      }
+    });
+    chart.axis('time', {
+      grid: {
+        type: 'time',
+        lineStyle: {
+          stroke: '#d9d9d9',
+          lineWidth: 1,
+          lineDash: [4, 4]
+        }
+      }
+    });
+    chart.axis('count', {
+      label: {
+        autoRotate: true,
+        formatter: val => {
+          if (val < 1000) {
+            return val;
+          }
+          return (val / 1000).toFixed(1) + 'k';
+        }
+      },
+      line: {
+        lineWidth: 1,
+        stroke: '#c5c2c2',
+      }
+    });
+    chart.area().position('time*count');
+    chart.line().position('time*count').size(0.5);
+    chart.render();
+    chart.changeVisible(false);
+    return chart;
   }
 }
