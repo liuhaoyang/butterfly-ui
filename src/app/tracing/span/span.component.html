@@ -3,68 +3,67 @@
     <nz-tag>{{ data.serviceName }}</nz-tag>
     <nz-tag>{{ data.displayDuration }}</nz-tag>
   </div>
-  <div class="tabSet">
-    <nz-tabset [nzTabPosition]="tabPosition" [nzShowPagination]='false'>
-      <nz-tab>
-        <ng-template #nzTabHeading>
-          Logs
+  <div class="table">
+    <nz-timeline>
+      <ng-template ngFor let-log [ngForOf]="data.logs">
+        <nz-timeline-item>
+          <div>
+            <span>{{ log.timestamp | date: 'yyyy-MM-dd HH:mm:ss.SSS' }}</span>
+          </div>
+          <div *ngFor="let field of log.fields">
+            <p *ngIf="field.key!='event'">{{ field.key }}</p>
+            <p>{{ field.value }}</p>
+          </div>
+        </nz-timeline-item>
+      </ng-template>
+    </nz-timeline>
+  </div>
+  <!-- <div class="table">
+    <nz-table #nzTable [nzDataSource]="data.logs" [nzIsPagination]="false">
+      <thead nz-thead>
+        <tr>
+          <th nz-th [nzWidth]="'30%'">
+            <span>DateTime</span>
+          </th>
+          <th nz-th [nzWidth]="'30%'">
+            <span>Name</span>
+          </th>
+          <th nz-th [nzWidth]="'40%'">
+            <span>Value</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody nz-tbody>
+        <ng-template ngFor let-log [ngForOf]="logs">
+          <tr nz-tbody-tr>
+            <td nz-td>
+              <span *ngIf="log.showTimestamp">{{ log.timestamp | date: 'yyyy-MM-dd HH:mm:ss.SSS' }}</span>
+            </td>
+            <td nz-td>{{ log.name }}</td>
+            <td nz-td>{{ log.value }}</td>
+          </tr>
         </ng-template>
-        <nz-timeline>
-          <nz-timeline-item>Create a services site 2015-09-01</nz-timeline-item>
-          <nz-timeline-item>Solve initial network problems 2015-09-01</nz-timeline-item>
-          <nz-timeline-item>Technical testing 2015-09-01</nz-timeline-item>
-          <nz-timeline-item>Network problems being solved 2015-09-01</nz-timeline-item>
-        </nz-timeline>
-        <nz-table #nzTable [nzDataSource]="data.logs" [nzIsPagination]="false">
-          <thead nz-thead>
-            <tr>
-              <th nz-th [nzWidth]="'30%'">
-                <span>DateTime</span>
-              </th>
-              <th nz-th [nzWidth]="'30%'">
-                <span>Name</span>
-              </th>
-              <th nz-th [nzWidth]="'40%'">
-                <span>Value</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody nz-tbody>
-            <ng-template ngFor let-log [ngForOf]="logs">
-              <tr nz-tbody-tr>
-                <td nz-td>
-                  <span *ngIf="log.showTimestamp">{{ log.timestamp | date: 'yyyy-MM-dd HH:mm:ss.SSS' }}</span>
-                </td>
-                <td nz-td>{{ log.name }}</td>
-                <td nz-td>{{ log.value }}</td>
-              </tr>
-            </ng-template>
-          </tbody>
-        </nz-table>
-      </nz-tab>
-      <nz-tab>
-        <ng-template #nzTabHeading>
-          Tags
-        </ng-template>
-        <nz-table #nzTable [nzDataSource]="data.tags" [nzIsPagination]="false">
-          <thead nz-thead>
-            <tr>
-              <th nz-th>
-                <span>Key</span>
-              </th>
-              <th nz-th>
-                <span>Value</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody nz-tbody>
-            <tr nz-tbody-tr *ngFor="let tag of data.tags">
-              <td nz-td>{{ tag.key }}</td>
-              <td nz-td>{{ tag.value }}</td>
-            </tr>
-          </tbody>
-        </nz-table>
-      </nz-tab>
-    </nz-tabset>
+      </tbody>
+    </nz-table>
+  </div> -->
+  <div class="table">
+    <nz-table #nzTable [nzDataSource]="data.tags" [nzIsPagination]="false">
+      <thead nz-thead>
+        <tr>
+          <th nz-th>
+            <span>Tag Key</span>
+          </th>
+          <th nz-th>
+            <span>Value</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody nz-tbody>
+        <tr nz-tbody-tr *ngFor="let tag of data.tags">
+          <td nz-td>{{ tag.key }}</td>
+          <td nz-td>{{ tag.value }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
   </div>
 </div>

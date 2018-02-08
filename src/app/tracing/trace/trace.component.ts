@@ -55,7 +55,8 @@ export class TraceComponent implements OnInit {
     const subscription = this.modalService.open({
       title: span.operationName,
       content: SpanComponent,
-      width: document.body.clientWidth * 0.75,
+      //width: document.body.clientWidth * 0.5,
+      width: 540,
       footer: false,
       componentParams: {
         SpanId: span.spanId
