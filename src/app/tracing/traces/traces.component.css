@@ -40,6 +40,14 @@
   line-height:26px;
 }
 
+.trace-Timestamp{
+  text-align: left;
+  line-height:26px;
+  float: left;
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
 .trace-description{
   padding: 10px 5px 5px 0;
   font-size: 13px;

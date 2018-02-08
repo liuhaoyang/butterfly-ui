@@ -40,13 +40,13 @@
           </div>
         </div>
         <div class="trace-description" nz-row>
-          <div nz-col [nzSpan]="20">
+            <div class="trace-Timestamp" nz-col>
+                {{ data.startTimestamp | date: 'yyyy/MM/dd HH:mm:ss.SSS'}}
+              </div>
+          <div nz-col>
             <span *ngFor=" let service of data.displayServices ">
               <nz-tag>{{ service.name }} x {{ service.count }}</nz-tag>
             </span>
-          </div>
-          <div class="trace-router" nz-col [nzSpan]="4">
-            {{ data.startTimestamp | date: 'yyyy/MM/dd HH:mm:ss.SSS'}}
           </div>
         </div>
       </div>
