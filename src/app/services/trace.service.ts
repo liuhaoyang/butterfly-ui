@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { UrlUtils } from './url.utils';
 import { PageViewModel } from '../models/page.viewModel';
 import { TraceViewModel, TraceServiceViewModel, DisplayServiceViewModel, SearchTraceViewModel } from '../models/trace.viewModel';
+import { TraceHistogramViewModel } from '../models/trace.viewModel';
 import { forEach } from '@angular/router/src/utils/collection';
 import { TraceDetailViewModel, SpanViewModel } from '../models/tracedetail.viewModel';
 import { SpanDetailViewModel } from '../models/spandetail.viewModel';
@@ -75,13 +76,13 @@ export class TraceService {
     }
 
     async getTraceDetail(traceId: string): Promise<TraceDetailViewModel> {
-        let trace = await this.http.get<TraceDetailViewModel>(this.url.getTraceDetail + traceId).toPromise();
+        const trace = await this.http.get<TraceDetailViewModel>(this.url.getTraceDetail + traceId).toPromise();
         trace.displayDuration = utils.toDisplayDuration(trace.duration);
-        let spans = this.expandTree(trace.spans, null, 0);
-        let services = new Map<string, string>();
-        let traceDuration = trace.duration;
-        let start = trace.startTimestamp;
-        for (let span of spans) {
+        const spans = this.expandTree(trace.spans, null, 0);
+        const services = new Map<string, string>();
+        const traceDuration = trace.duration;
+        const start = trace.startTimestamp;
+        for (const span of spans) {
             span.displayDuration = utils.toDisplayDuration(span.duration);
             span.displayWidth = span.duration / traceDuration * 100;
             span.displayOffset = span.offset / traceDuration * 100;
@@ -132,6 +133,32 @@ export class TraceService {
 
         return this.http.get(this.url.getDependencies, { params: httpParams }).toPromise();
     }
+
+    async getTraceHistogram(search: SearchTraceViewModel): Promise<TraceHistogramViewModel[]> {
+
+        let httpParams = new HttpParams()
+            .set('limit', search.limit.toString());
+
+        if (search.service != null) {
+            httpParams = httpParams.set('service', search.service);
+        }
+
+        if (search.tags != null) {
+            httpParams = httpParams.set('tags', search.tags);
+        }
+
+        if (search.startTimestamp != null) {
+            httpParams = httpParams.set('startTimestamp', search.startTimestamp.valueOf().toString());
+        }
+
+        if (search.finishTimestamp != null) {
+            httpParams = httpParams.set('finishTimestamp', search.finishTimestamp.valueOf().toString());
+        }
+
+        const result = await this.http.get<TraceHistogramViewModel[]>(this.url.getTraceHistogram, { params: httpParams }).toPromise();
+        return result;
+    }
+
 
     private max<T>(data: T[], predicate: (x: T) => number): number {
         let max = 0;

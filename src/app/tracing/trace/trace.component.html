@@ -18,6 +18,9 @@
         <th nz-th [nzWidth]="'20%'">
           <span>Span</span>
         </th>
+        <th nz-th [nzWidth]="'5%'">
+          <span>Time (%)</span>
+        </th>
         <th nz-th>
           <div ng-row class="timeline-header">
             <div nz-col [nzSpan]="3">
@@ -41,6 +44,9 @@
               <span class="span-name">{{ data.operationName }}</span>
               <span class="span-name">({{ data.displayDuration }})</span>
             </a>
+          </td>
+          <td nz-td class='span-time'>
+            <span> {{data.displayWidth.toFixed(2) + '%'}}</span>
           </td>
           <td nz-td>
             <div class="timeline-container">

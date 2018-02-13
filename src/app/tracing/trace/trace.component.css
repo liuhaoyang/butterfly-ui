@@ -18,6 +18,11 @@
   font-style: italic;
 }
 
+.span-time{
+  text-align: right;
+  font-weight: 500;
+}
+
 .timeline-header{
   text-align: right;
 }

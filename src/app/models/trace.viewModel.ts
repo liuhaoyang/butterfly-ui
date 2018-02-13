@@ -52,3 +52,8 @@ export class SearchTraceViewModel {
         this.startTimestamp.setMinutes(this.startTimestamp.getMinutes() - 60);
     }
 }
+
+export class TraceHistogramViewModel{
+    time: string;
+    count: number;
+}

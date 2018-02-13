@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Route, Router, NavigationEnd } from '@angular/router';
+import * as G2 from '@antv/g2';
 
 @Component({
     selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit {
     breadcrumbs;
 
     constructor(private router: Router) {
+        G2.track(false);
     }
 
     ngOnInit() {
@@ -26,9 +28,9 @@ export class AppComponent implements OnInit {
 
     subNavsQueryString(breadcrumbs: string[]): void {
         for (let i = 0; i < breadcrumbs.length; i++) {
-            let item = breadcrumbs[i];
-            let indexOf = item.indexOf("?");
-            if (indexOf != -1) {
+            const item = breadcrumbs[i];
+            const indexOf = item.indexOf('?');
+            if (indexOf !== -1) {
                 breadcrumbs[i] = item.substring(0, indexOf);
             }
         }
